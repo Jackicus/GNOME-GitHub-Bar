@@ -79,11 +79,16 @@ function linkItem(icon, title, details, tag) {
     column.add_child(label);
 
     const line = new St.BoxLayout({style_class: 'github-bar-details'});
+    // The tag gives way first: the repository, number and age matter more.
     const detailsLabel = dimLabel(details.filter(Boolean).join(' · '));
-    detailsLabel.x_expand = true;
+    detailsLabel.clutter_text.ellipsize = Pango.EllipsizeMode.NONE;
     line.add_child(detailsLabel);
-    if (tag)
-        line.add_child(dimLabel(tag));
+    if (tag) {
+        const tagLabel = dimLabel(tag);
+        tagLabel.x_expand = true;
+        tagLabel.x_align = Clutter.ActorAlign.END;
+        line.add_child(tagLabel);
+    }
     column.add_child(line);
 
     item.add_child(column);
