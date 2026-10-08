@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <!-- The stand-in account's avatar: an invented drawing, a sun over two hills. -->
+  <rect width="64" height="64" fill="#99c1f1"/>
+  <circle cx="42" cy="22" r="10" fill="#f6d32d"/>
+  <path d="M0 48 Q16 30 34 46 T64 40 V64 H0 Z" fill="#57e389"/>
+  <path d="M0 56 Q22 44 44 56 T64 54 V64 H0 Z" fill="#26a269"/>
+</svg>
