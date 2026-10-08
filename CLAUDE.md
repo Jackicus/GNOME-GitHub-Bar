@@ -37,6 +37,7 @@ src/lib/auth.js         readToken(), hostsFile(): gh's login
 src/lib/http.js         one libsoup session; the stand-in replaces this file
 src/lib/log.js          warn / error behind the "[GitHub Bar]" prefix
 tests/fixtures/         invented GraphQL and notifications responses
+docs/publishing.md      the zip, and how it meets the extensions.gnome.org review
 ```
 
 ## How it behaves
