@@ -15,6 +15,8 @@ const COUNTS = [
 export default class GitHubBarPreferences extends ExtensionPreferences {
     fillPreferencesWindow(window) {
         const settings = this.getSettings();
+        // Tall enough for every group without scrolling.
+        window.set_default_size(640, 980);
         const page = new Adw.PreferencesPage();
 
         const bar = new Adw.PreferencesGroup({title: 'Top Bar'});
