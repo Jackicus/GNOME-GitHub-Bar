@@ -97,3 +97,10 @@ it (a leak per disable).
   `error`, `checks-pending`, `checks-passed`, `checks-failed`, `signed-out` or
   `signed-in`, and the app re-reads on the `hosts.yml` rewrite. Driving it: the
   `drive-extension` skill.
+* `./scripts/nested.sh shots [--light] [--out DIR]` (`make shots`,
+  `./scripts/nested.d/shots.sh`) takes the published set into `docs/screenshots/` over
+  `start --stand-in --headless` and stops: the top bar, the menu at its top and scrolled
+  down, the checks-passed banner and the preferences at both ends (`--light`: the top bar
+  and the menu, `*-light.png`). It refuses while a nested shell runs, and ends by stripping
+  the PNGs' text chunks with `oxipng` (it warns when that is missing: never commit them
+  unstripped).

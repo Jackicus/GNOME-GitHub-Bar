@@ -33,4 +33,15 @@ steps and its settings are there. This is what is particular to GitHub Bar.
   src/schemas`). The preferences: `./scripts/nested.sh run gnome-extensions prefs
   github-bar@jackicus`, then `do "window FILE"`. The Extensions app keeps `prefs.js`
   loaded: an edit to it is seen after `stop` + `start`.
-- **Screenshots** go through `gnome-ext:screenshots`, under `start --stand-in`.
+- **Screenshots** go through `gnome-ext:screenshots`: `./scripts/nested.sh shots`
+  (`make shots`), then `shots --light`; `--out DIR` writes to the scratchpad to compare
+  first. The README links `menu.png` (the hero), `top-bar-cropped.png`,
+  `menu-scrolled.png`, `notification.png`, `menu-light.png` and both preferences shots.
+  The click points (`SHOTS_*` in `./scripts/nested.d/shots.sh`) are measured with the
+  driver's recording indicator in the bar, which moves the button left of where a picture
+  without it shows it (about 1433).
+  A menu opened with an extra indicator in the bar stays where it opened, and is cut off
+  on the left once the indicator goes.
+- **A microphone indicator in the nested bar** is an application recording on the
+  desktop: the nested session shares its PipeWire. `shots` warns about it; wait until
+  the recording ends.
