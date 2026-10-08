@@ -1,0 +1,116 @@
+[
+  {
+    "id": "1001",
+    "unread": true,
+    "reason": "review_requested",
+    "updated_at": "2026-10-08T09:12:00Z",
+    "last_read_at": null,
+    "subject": {
+      "title": "Water the seedlings on a timer",
+      "url": "https://api.github.com/repos/stand-in/garden/pulls/41",
+      "latest_comment_url": null,
+      "type": "PullRequest"
+    },
+    "repository": {
+      "full_name": "stand-in/garden",
+      "name": "garden"
+    },
+    "url": "https://api.github.com/notifications/threads/1001",
+    "subscription_url": "https://api.github.com/notifications/threads/1001/subscription"
+  },
+  {
+    "id": "1002",
+    "unread": true,
+    "reason": "assign",
+    "updated_at": "2026-10-05T07:00:00Z",
+    "last_read_at": null,
+    "subject": {
+      "title": "Slugs in the lettuce",
+      "url": "https://api.github.com/repos/stand-in/garden/issues/18",
+      "latest_comment_url": null,
+      "type": "Issue"
+    },
+    "repository": {
+      "full_name": "stand-in/garden",
+      "name": "garden"
+    },
+    "url": "https://api.github.com/notifications/threads/1002",
+    "subscription_url": "https://api.github.com/notifications/threads/1002/subscription"
+  },
+  {
+    "id": "1003",
+    "unread": true,
+    "reason": "subscribed",
+    "updated_at": "2026-10-04T12:00:00Z",
+    "last_read_at": null,
+    "subject": {
+      "title": "v1.2",
+      "url": "https://api.github.com/repos/stand-in/lantern/releases/555",
+      "latest_comment_url": null,
+      "type": "Release"
+    },
+    "repository": {
+      "full_name": "stand-in/lantern",
+      "name": "lantern"
+    },
+    "url": "https://api.github.com/notifications/threads/1003",
+    "subscription_url": "https://api.github.com/notifications/threads/1003/subscription"
+  },
+  {
+    "id": "1004",
+    "unread": true,
+    "reason": "mention",
+    "updated_at": "2026-10-03T12:00:00Z",
+    "last_read_at": null,
+    "subject": {
+      "title": "Which wick lasts longest?",
+      "url": null,
+      "latest_comment_url": null,
+      "type": "Discussion"
+    },
+    "repository": {
+      "full_name": "stand-in/lantern",
+      "name": "lantern"
+    },
+    "url": "https://api.github.com/notifications/threads/1004",
+    "subscription_url": "https://api.github.com/notifications/threads/1004/subscription"
+  },
+  {
+    "id": "1005",
+    "unread": true,
+    "reason": "author",
+    "updated_at": "2026-10-02T12:00:00Z",
+    "last_read_at": null,
+    "subject": {
+      "title": "Fix the spout",
+      "url": "https://api.github.com/repos/stand-in/kettle/commits/0a1b2c3",
+      "latest_comment_url": null,
+      "type": "Commit"
+    },
+    "repository": {
+      "full_name": "stand-in/kettle",
+      "name": "kettle"
+    },
+    "url": "https://api.github.com/notifications/threads/1005",
+    "subscription_url": "https://api.github.com/notifications/threads/1005/subscription"
+  },
+  {
+    "id": "1006",
+    "unread": true,
+    "reason": "ci_activity",
+    "updated_at": "2026-10-01T12:00:00Z",
+    "last_read_at": null,
+    "subject": {
+      "title": "CI workflow run failed for main branch",
+      "url": null,
+      "latest_comment_url": null,
+      "type": "CheckSuite"
+    },
+    "repository": {
+      "full_name": "stand-in/kettle",
+      "name": "kettle"
+    },
+    "url": "https://api.github.com/notifications/threads/1006",
+    "subscription_url": "https://api.github.com/notifications/threads/1006/subscription"
+  }
+]

@@ -1,0 +1,65 @@
+/* Sizes follow the shell's own theme (.popup-menu-item, the quick settings headers).
+   No foreground colour is hardcoded but the two state colours. */
+
+.github-bar-count {
+    font-feature-settings: "tnum";
+}
+
+/* Fixed, so the menu keeps its width as titles come and go. */
+.github-bar-menu {
+    width: 24em;
+}
+
+/* GNOME's Green 5 and Red 4: St names no success or error colour. */
+.github-bar-success {
+    color: #26a269;
+}
+
+.github-bar-failure {
+    color: #e01b24;
+}
+
+.github-bar-user {
+    spacing: 0.75em;
+}
+
+.github-bar-avatar {
+    width: 2.5em;
+    height: 2.5em;
+    icon-size: 2.5em;
+    background-size: cover;
+}
+
+.github-bar-names {
+    spacing: 0.4em;
+}
+
+.github-bar-name {
+    font-weight: bold;
+}
+
+.github-bar-graph {
+    height: 7em;
+    -github-bar-graph-color: -st-accent-color;
+}
+
+/* As the quick settings menu's header subtitle. */
+.github-bar-heading {
+    font-weight: bold;
+    font-size: 0.818em;
+}
+
+.github-bar-heading-row {
+    padding-top: 0.75em;
+    padding-bottom: 0.2em;
+}
+
+.github-bar-details {
+    font-size: 0.9em;
+    spacing: 0.75em;
+}
+
+.github-bar-caption-row {
+    padding-top: 0.4em;
+    padding-bottom: 0.4em;
+}

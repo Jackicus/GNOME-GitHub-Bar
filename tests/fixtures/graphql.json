@@ -1,0 +1,247 @@
+{
+  "data": {
+    "viewer": {
+      "login": "stand-in",
+      "name": "Stand In",
+      "avatarUrl": "https://avatars.example.invalid/stand-in.png",
+      "contributionsCollection": {
+        "contributionCalendar": {
+          "totalContributions": 34,
+          "weeks": [
+            {
+              "contributionDays": [
+                {
+                  "date": "2026-09-20",
+                  "contributionCount": 0
+                },
+                {
+                  "date": "2026-09-21",
+                  "contributionCount": 2
+                },
+                {
+                  "date": "2026-09-22",
+                  "contributionCount": 5
+                },
+                {
+                  "date": "2026-09-23",
+                  "contributionCount": 0
+                },
+                {
+                  "date": "2026-09-24",
+                  "contributionCount": 1
+                },
+                {
+                  "date": "2026-09-25",
+                  "contributionCount": 3
+                },
+                {
+                  "date": "2026-09-26",
+                  "contributionCount": 0
+                }
+              ]
+            },
+            {
+              "contributionDays": [
+                {
+                  "date": "2026-09-27",
+                  "contributionCount": 4
+                },
+                {
+                  "date": "2026-09-28",
+                  "contributionCount": 1
+                },
+                {
+                  "date": "2026-09-29",
+                  "contributionCount": 0
+                },
+                {
+                  "date": "2026-09-30",
+                  "contributionCount": 7
+                },
+                {
+                  "date": "2026-10-01",
+                  "contributionCount": 1
+                },
+                {
+                  "date": "2026-10-02",
+                  "contributionCount": 2
+                },
+                {
+                  "date": "2026-10-03",
+                  "contributionCount": 0
+                }
+              ]
+            },
+            {
+              "contributionDays": [
+                {
+                  "date": "2026-10-04",
+                  "contributionCount": 0
+                },
+                {
+                  "date": "2026-10-05",
+                  "contributionCount": 3
+                },
+                {
+                  "date": "2026-10-06",
+                  "contributionCount": 1
+                },
+                {
+                  "date": "2026-10-07",
+                  "contributionCount": 4
+                },
+                {
+                  "date": "2026-10-08",
+                  "contributionCount": 0
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "reviews": {
+      "issueCount": 7,
+      "nodes": [
+        {
+          "number": 41,
+          "title": "Water the seedlings on a timer",
+          "url": "https://github.com/stand-in/garden/pull/41",
+          "updatedAt": "2026-10-08T09:12:00Z",
+          "isDraft": false,
+          "repository": {
+            "nameWithOwner": "stand-in/garden"
+          },
+          "author": {
+            "login": "fern"
+          }
+        },
+        {
+          "number": 7,
+          "title": "Brighter wick",
+          "url": "https://github.com/stand-in/lantern/pull/7",
+          "updatedAt": "2026-10-07T16:40:00Z",
+          "isDraft": true,
+          "repository": {
+            "nameWithOwner": "stand-in/lantern"
+          },
+          "author": null
+        },
+        {}
+      ]
+    },
+    "pulls": {
+      "issueCount": 4,
+      "nodes": [
+        {
+          "number": 12,
+          "title": "Compost bin sizes",
+          "url": "https://github.com/stand-in/garden/pull/12",
+          "updatedAt": "2026-10-08T10:00:00Z",
+          "isDraft": false,
+          "reviewDecision": "REVIEW_REQUIRED",
+          "repository": {
+            "nameWithOwner": "stand-in/garden"
+          },
+          "commits": {
+            "nodes": [
+              {
+                "commit": {
+                  "oid": "a1b2c3d",
+                  "statusCheckRollup": {
+                    "state": "PENDING"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "number": 9,
+          "title": "Glass shade",
+          "url": "https://github.com/stand-in/lantern/pull/9",
+          "updatedAt": "2026-10-06T08:30:00Z",
+          "isDraft": false,
+          "reviewDecision": "APPROVED",
+          "repository": {
+            "nameWithOwner": "stand-in/lantern"
+          },
+          "commits": {
+            "nodes": [
+              {
+                "commit": {
+                  "oid": "e4f5a6b",
+                  "statusCheckRollup": {
+                    "state": "SUCCESS"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "number": 3,
+          "title": "Trellis for the beans",
+          "url": "https://github.com/stand-in/garden/pull/3",
+          "updatedAt": "2026-10-01T12:00:00Z",
+          "isDraft": true,
+          "reviewDecision": "CHANGES_REQUESTED",
+          "repository": {
+            "nameWithOwner": "stand-in/garden"
+          },
+          "commits": {
+            "nodes": [
+              {
+                "commit": {
+                  "oid": "c7d8e9f",
+                  "statusCheckRollup": {
+                    "state": "ERROR"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "number": 2,
+          "title": "Readme",
+          "url": "https://github.com/stand-in/kettle/pull/2",
+          "updatedAt": "2026-09-28T12:00:00Z",
+          "isDraft": false,
+          "reviewDecision": null,
+          "repository": {
+            "nameWithOwner": "stand-in/kettle"
+          },
+          "commits": {
+            "nodes": []
+          }
+        }
+      ]
+    },
+    "assigned": {
+      "issueCount": 2,
+      "nodes": [
+        {
+          "__typename": "Issue",
+          "number": 18,
+          "title": "Slugs in the lettuce",
+          "url": "https://github.com/stand-in/garden/issues/18",
+          "updatedAt": "2026-10-05T07:00:00Z",
+          "repository": {
+            "nameWithOwner": "stand-in/garden"
+          }
+        },
+        {
+          "__typename": "PullRequest",
+          "number": 9,
+          "title": "Glass shade",
+          "url": "https://github.com/stand-in/lantern/pull/9",
+          "updatedAt": "2026-10-06T08:30:00Z",
+          "repository": {
+            "nameWithOwner": "stand-in/lantern"
+          }
+        }
+      ]
+    }
+  }
+}

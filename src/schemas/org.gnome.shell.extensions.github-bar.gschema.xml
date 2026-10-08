@@ -1,10 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
+    <enum id="org.gnome.shell.extensions.github-bar.count">
+        <value nick="notifications" value="0"/>
+        <value nick="reviews" value="1"/>
+        <value nick="both" value="2"/>
+        <value nick="none" value="3"/>
+    </enum>
     <schema id="org.gnome.shell.extensions.github-bar" path="/org/gnome/shell/extensions/github-bar/">
-        <key name="show-indicator" type="b">
+        <key name="count" enum="org.gnome.shell.extensions.github-bar.count">
+            <default>'both'</default>
+            <summary>What the number beside the icon counts</summary>
+            <description>Unread notifications, review requests, the two added, or no number.</description>
+        </key>
+        <key name="show-reviews" type="b">
             <default>true</default>
-            <summary>Show the indicator</summary>
-            <description>Whether the extension's icon is in the top bar.</description>
+            <summary>Show review requests</summary>
+            <description>Open pull requests that ask for your review.</description>
+        </key>
+        <key name="show-pulls" type="b">
+            <default>true</default>
+            <summary>Show your pull requests</summary>
+            <description>Your open pull requests, with their checks and review state.</description>
+        </key>
+        <key name="show-assigned" type="b">
+            <default>true</default>
+            <summary>Show what is assigned to you</summary>
+            <description>Open issues and pull requests assigned to you.</description>
+        </key>
+        <key name="show-notifications" type="b">
+            <default>true</default>
+            <summary>Show notifications</summary>
+            <description>Unread notifications from your GitHub inbox.</description>
+        </key>
+        <key name="show-graph" type="b">
+            <default>true</default>
+            <summary>Show the contribution graph</summary>
+            <description>The last weeks of your contribution calendar, with your streak.</description>
+        </key>
+        <key name="max-items" type="i">
+            <range min="1" max="20"/>
+            <default>5</default>
+            <summary>Items per section</summary>
+            <description>How many entries each section lists before linking to the rest on GitHub.</description>
+        </key>
+        <key name="notify-checks" type="b">
+            <default>true</default>
+            <summary>Notify when checks finish</summary>
+            <description>A notification when the checks on one of your pull requests pass or fail.</description>
+        </key>
+        <key name="notify-reviews" type="b">
+            <default>true</default>
+            <summary>Notify about review requests</summary>
+            <description>A notification when someone asks for your review.</description>
+        </key>
+        <key name="poll-seconds" type="u">
+            <range min="60" max="3600"/>
+            <default>120</default>
+            <summary>Seconds between updates</summary>
+            <description>How often GitHub is asked. While checks run on your pull requests it is asked every minute.</description>
         </key>
     </schema>
 </schemalist>

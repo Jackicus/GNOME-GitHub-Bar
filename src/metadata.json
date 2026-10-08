@@ -1,9 +1,11 @@
 {
   "uuid": "github-bar@jackicus",
   "name": "GitHub Bar",
-  "description": "Your GitHub notifications, review requests and pull request CI status in the top bar",
+  "description": "Your GitHub notifications, review requests and pull request CI status in the top bar.\n\nIt uses the GitHub CLI's login (run gh auth login once): it reads gh's token from the keyring or gh's hosts.yml on each update and never stores it. It talks only to api.github.com and GitHub's avatar server, and caches your avatar under ~/.cache/github-bar@jackicus. The only change it makes on GitHub is marking notifications read.",
   "settings-schema": "org.gnome.shell.extensions.github-bar",
-  "shell-version": [ "50" ],
+  "shell-version": [
+    "50"
+  ],
   "url": "https://github.com/Jackicus/GNOME-GitHub-Bar",
   "version-name": "0.1"
 }
