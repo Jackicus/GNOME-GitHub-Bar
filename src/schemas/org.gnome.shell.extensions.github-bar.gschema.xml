@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+    <schema id="org.gnome.shell.extensions.github-bar" path="/org/gnome/shell/extensions/github-bar/">
+        <key name="show-indicator" type="b">
+            <default>true</default>
+            <summary>Show the indicator</summary>
+            <description>Whether the extension's icon is in the top bar.</description>
+        </key>
+    </schema>
+</schemalist>

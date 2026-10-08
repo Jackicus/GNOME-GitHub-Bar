@@ -1,0 +1,18 @@
+# Build artifacts
+src/schemas/gschemas.compiled
+dist/
+*.zip
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~
+node_modules/
+
+# Claude Code worktrees
+.claude/worktrees/

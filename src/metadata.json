@@ -1,0 +1,9 @@
+{
+  "uuid": "github-bar@jackicus",
+  "name": "GitHub Bar",
+  "description": "Your GitHub notifications, review requests and pull request CI status in the top bar",
+  "settings-schema": "org.gnome.shell.extensions.github-bar",
+  "shell-version": [ "50" ],
+  "url": "https://github.com/Jackicus/GNOME-GitHub-Bar",
+  "version-name": "0.1"
+}
