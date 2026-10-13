@@ -23,7 +23,9 @@ steps and its settings are there. This is what is particular to GitHub Bar.
   the tabs Inbox, Pulls, Assigned sit at y 125 (folded), x about 1240, 1343, 1440. The
   list under them scrolls when it is long.
 - **Never click an item, "N more…" or Open Profile on GitHub**: each opens github.com in
-  the user's real browser. Mark All as Read, the tabs and the user row are safe.
+  the user's real browser. Mark All as Read, an inbox row's check button (at its right end, shown on hover), the tabs
+  and the user row are safe. The driver has no Delete key; BackSpace stands in only if the
+  code is changed for the test.
 - **States**: `./scripts/nested.sh state STATE` (`ok`, `empty`, `unauthorized`, `offline`,
   `error`, `signed-out`, `signed-in`, `checks-pending`, `checks-passed`, `checks-failed`);
   the app re-reads about 2 s later. `checks-pending` then `checks-passed` shows the "Checks
