@@ -51,6 +51,8 @@ export default class GitHubBarPreferences extends ExtensionPreferences {
         const notify = new Adw.PreferencesGroup({title: 'Notifications'});
         this._addSwitch(notify, settings, 'notify-checks', 'Checks Finished',
             'When the checks on one of your pull requests pass or fail');
+        this._addSwitch(notify, settings, 'notify-ready', 'Ready to Merge',
+            'When one of your pull requests is approved, its checks passed, with no conflicts');
         this._addSwitch(notify, settings, 'notify-reviews', 'Review Requested',
             'When someone asks for your review');
         page.add(notify);

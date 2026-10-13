@@ -27,9 +27,10 @@ steps and its settings are there. This is what is particular to GitHub Bar.
   and the user row are safe. The driver has no Delete key; BackSpace stands in only if the
   code is changed for the test.
 - **States**: `./scripts/nested.sh state STATE` (`ok`, `empty`, `unauthorized`, `offline`,
-  `error`, `signed-out`, `signed-in`, `checks-pending`, `checks-passed`, `checks-failed`);
-  the app re-reads about 2 s later. `checks-pending` then `checks-passed` shows the "Checks
-  passed on stand-in/garden#42" banner at the top centre. Marked-read threads stay read
+  `error`, `signed-out`, `signed-in`, `checks-pending`, `checks-passed`, `checks-failed`,
+  `ready`); the app re-reads about 2 s later. `checks-pending` then `checks-passed` shows
+  the "Checks passed on stand-in/garden#42" banner at the top centre, `checks-pending` then
+  `ready` the "Ready to merge" one instead. Marked-read threads stay read
   until the next `start`.
 - **Its settings**: `./scripts/nested.sh run timeout 5 gsettings --schemadir src/schemas set
   org.gnome.shell.extensions.github-bar count none` (after `glib-compile-schemas

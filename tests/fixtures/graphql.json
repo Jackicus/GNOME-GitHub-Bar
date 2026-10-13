@@ -154,7 +154,8 @@
                 }
               }
             ]
-          }
+          },
+          "mergeable": "CONFLICTING"
         },
         {
           "number": 9,
@@ -177,7 +178,8 @@
                 }
               }
             ]
-          }
+          },
+          "mergeable": "MERGEABLE"
         },
         {
           "number": 3,

@@ -209,22 +209,26 @@ export class GitHubBarApp {
                 for (const item of reviews.filter(review => !this._known.reviews.has(review.url)))
                     this._notify(`Review requested on ${item.repo}#${item.number}`, item.title, item.url);
             }
-            if (this._settings.get_boolean('notify-checks')) {
-                for (const pull of pulls) {
-                    const before = this._known.checks.get(pull.url);
-                    if (before?.oid !== pull.headOid || before.checks !== 'pending')
-                        continue;
+            const notifyReady = this._settings.get_boolean('notify-ready');
+            const notifyChecks = this._settings.get_boolean('notify-checks');
+            for (const pull of pulls) {
+                const before = this._known.pulls.get(pull.url);
+                const name = `${pull.repo}#${pull.number}`;
+                // Ready to merge says checks passed too, so it stands in for that notification.
+                if (notifyReady && before && pull.ready && !before.ready) {
+                    this._notify(`Ready to merge: ${name}`, pull.title, pull.url);
+                } else if (notifyChecks && before?.oid === pull.headOid && before.checks === 'pending') {
                     if (pull.checks === 'success')
-                        this._notify(`Checks passed on ${pull.repo}#${pull.number}`, pull.title, pull.url);
+                        this._notify(`Checks passed on ${name}`, pull.title, pull.url);
                     else if (pull.checks === 'failure')
-                        this._notify(`Checks failed on ${pull.repo}#${pull.number}`, pull.title, pull.url);
+                        this._notify(`Checks failed on ${name}`, pull.title, pull.url);
                 }
             }
         }
         this._known = {
             login: dashboard.user.login,
             reviews: new Set(reviews.map(review => review.url)),
-            checks: new Map(pulls.map(pull => [pull.url, {oid: pull.headOid, checks: pull.checks}])),
+            pulls: new Map(pulls.map(pull => [pull.url, {oid: pull.headOid, checks: pull.checks, ready: pull.ready}])),
         };
     }
 

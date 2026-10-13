@@ -56,7 +56,9 @@ docs/publishing.md      the zip, and how it meets the extensions.gnome.org revie
   after gh rewrites `hosts.yml` (sign in, sign out). The timer is one-shot, re-armed after
   each fetch.
 * **Notifications**: the first good fetch after enable only learns what is there. Checks
-  notify on pending → success/failure for the same head commit; a review request notifies
+  notify on pending → success/failure for the same head commit; a pull request becoming
+  ready (`ready` in `github.js`: approved, checks passed or none, not `CONFLICTING`, not a
+  draft) notifies "Ready to merge" in place of "Checks passed"; a review request notifies
   once per pull request seen. A change of account relearns without notifying. A screen
   lock disables, so an unlock forgets and relearns.
 * **The menu** is fixed items updated in place: a status caption, the user row (a
@@ -65,7 +67,7 @@ docs/publishing.md      the zip, and how it meets the extensions.gnome.org revie
   and Open Profile on GitHub), and a strip of three tabs (`TABS`: Inbox, Pulls, Assigned),
   St.Buttons in the theme's `button` style, `flat` but for the selected one, each with the
   count of what waits on you there (Pulls: review requests, and your pull requests with
-  failed checks or changes requested; red while checks have failed). Only the
+  failed checks, changes requested or conflicts; red while checks have failed). Only the
   selected tab's list is rebuilt, inside an `St.ScrollView` that replaces a
   `PopupMenuSection`'s actor, as the shell's `PopupSubMenu` does (with the `_delegate` set,
   or the menu never sees the section and leaks it on disable); keyboard focus scrolls itself
@@ -84,7 +86,7 @@ docs/publishing.md      the zip, and how it meets the extensions.gnome.org revie
 
 `count` (`both`, `notifications`, `reviews`, `none`), `participating`, `show-pulls`,
 `show-assigned`, `show-notifications`, `show-graph`, `max-items` (5), `notify-checks`,
-`notify-reviews`, `poll-seconds` (120, 60–3600).
+`notify-ready`, `notify-reviews`, `poll-seconds` (120, 60–3600).
 
 ## Private shell API
 
@@ -107,7 +109,7 @@ it (a leak per disable).
   not under it) and stages `./scripts/stand-in-http.js` over `lib/http.js`. The nested
   session has no keyring, so a plain `start` shows "signed out". `./scripts/nested.sh
   state STATE` puts the stand-in account in `ok`, `empty`, `unauthorized`, `offline`,
-  `error`, `checks-pending`, `checks-passed`, `checks-failed`, `signed-out` or
+  `error`, `checks-pending`, `checks-passed`, `checks-failed`, `ready`, `signed-out` or
   `signed-in`, and the app re-reads on the `hosts.yml` rewrite. Driving it: the
   `drive-extension` skill.
 * `./scripts/nested.sh shots [--light] [--out DIR]` (`make shots`,

@@ -48,6 +48,11 @@
             <summary>Notify when checks finish</summary>
             <description>A notification when the checks on one of your pull requests pass or fail.</description>
         </key>
+        <key name="notify-ready" type="b">
+            <default>true</default>
+            <summary>Notify when a pull request is ready to merge</summary>
+            <description>A notification when one of your pull requests becomes approved, with its checks passed and no conflicts.</description>
+        </key>
         <key name="notify-reviews" type="b">
             <default>true</default>
             <summary>Notify about review requests</summary>
