@@ -61,7 +61,9 @@ docs/publishing.md      the zip, and how it meets the extensions.gnome.org revie
   `PopupSubMenuMenuItem` whose label is replaced by the avatar, names and stats, with the
   shell's `Animation.Spinner` before its arrow while a fetch runs), its submenu (the graph
   and Open Profile on GitHub), and a strip of three tabs (`TABS`: Inbox, Pulls, Assigned),
-  St.Buttons in the theme's `button` style, `flat` but for the selected one. Only the
+  St.Buttons in the theme's `button` style, `flat` but for the selected one, each with the
+  count of what waits on you there (Pulls: review requests, and your pull requests with
+  failed checks or changes requested; red while checks have failed). Only the
   selected tab's list is rebuilt, inside an `St.ScrollView` that replaces a
   `PopupMenuSection`'s actor, as the shell's `PopupSubMenu` does (with the `_delegate` set,
   or the menu never sees the section and leaks it on disable); keyboard focus scrolls itself

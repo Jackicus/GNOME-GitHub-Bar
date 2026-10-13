@@ -3,7 +3,7 @@
 Your GitHub notifications, review requests and pull request CI status in the top bar of
 GNOME Shell.
 
-![The open menu under the top bar: the avatar and name of the account "stand-in", 758 contributions and a 9-day streak, then three tabs, Inbox 6, Pulls 6 and Assigned 2, with Inbox selected: five unread notifications, "1 more…" and Mark All as Read.](docs/screenshots/menu.png)
+![The open menu under the top bar: the avatar and name of the account "stand-in", 758 contributions and a 9-day streak, then three tabs, Inbox 6, Pulls 3 in red for failed checks and Assigned 2, with Inbox selected: five unread notifications, "1 more…" and Mark All as Read.](docs/screenshots/menu.png)
 
 ## What it does
 
@@ -14,7 +14,9 @@ GNOME Shell.
   a minute old; a small spinner beside your name says so, and the list stays put.
 - **Inbox**: your unread GitHub notifications; a click opens one and marks it read.
 - **Pulls**: open pull requests that ask for your review, then your own, each with its
-  checks (running, passed, failed) and review state.
+  checks (running, passed, failed) and review state. The tab counts what waits on you:
+  review requests, and your pull requests with failed checks or changes asked for. The
+  count turns red while checks have failed.
 - **Assigned**: open issues and pull requests assigned to you.
 - **Your contributions**: a click on your name unfolds the last weeks of your calendar, in
   the accent colour, and a link to your profile.
@@ -23,7 +25,7 @@ GNOME Shell.
 
 ![The top bar's right end: the pull request glyph and the count 8, beside the system icons.](docs/screenshots/top-bar-cropped.png)
 
-![The same menu with the profile unfolded, the contribution calendar in blue and Open Profile on GitHub under the name, and the Pulls tab selected: two review requests and four of your pull requests: one with checks running, one with checks passed and "Approved", one with checks failed and "Needs changes", and one "Draft".](docs/screenshots/menu-profile.png)
+![The same menu with the profile unfolded, the contribution calendar in blue and Open Profile on GitHub under the name, and the Pulls tab selected (its count 3 in red): two review requests and four of your pull requests: one with checks running, one with checks passed and "Approved", one with checks failed and "Needs changes", and one "Draft".](docs/screenshots/menu-profile.png)
 
 ![A notification banner: "Checks passed on stand-in/garden#42", with the pull request's title "Water the seedlings on a timer".](docs/screenshots/notification.png)
 

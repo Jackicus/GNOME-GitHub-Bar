@@ -16,18 +16,26 @@ import {GitHubBarGraph} from './graph.js';
 // Secondary text is dimmed with actor opacity, so it suits light and dark menus.
 const DIM_OPACITY = 160;
 
-// Each tab lists one or more groups of the dashboard; a group's option turns it off.
+// Your pull requests that wait on you rather than on others.
+function needsYou(pull) {
+    return pull.checks === 'failure' || pull.review === 'changes';
+}
+
+// Each tab lists one or more groups of the dashboard, and counts what waits on you there.
 const TABS = [
-    {title: 'Inbox', empty: 'No unread notifications', groups: [
-        {key: 'notifications', option: 'showNotifications', url: 'https://github.com/notifications'},
-    ]},
-    {title: 'Pulls', empty: 'No open pull requests', groups: [
-        {key: 'reviews', option: 'showPulls', title: 'Review Requests', url: 'https://github.com/pulls/review-requested'},
-        {key: 'pulls', option: 'showPulls', title: 'Your Pull Requests', url: 'https://github.com/pulls'},
-    ]},
-    {title: 'Assigned', empty: 'Nothing assigned to you', groups: [
-        {key: 'assigned', option: 'showAssigned', url: 'https://github.com/issues/assigned'},
-    ]},
+    {title: 'Inbox', option: 'showNotifications', empty: 'No unread notifications',
+        count: dashboard => dashboard.notifications.total, groups: [
+            {key: 'notifications', url: 'https://github.com/notifications'},
+        ]},
+    {title: 'Pulls', option: 'showPulls', empty: 'No open pull requests',
+        count: dashboard => dashboard.reviews.total + dashboard.pulls.items.filter(needsYou).length, groups: [
+            {key: 'reviews', title: 'Review Requests', url: 'https://github.com/pulls/review-requested'},
+            {key: 'pulls', title: 'Your Pull Requests', url: 'https://github.com/pulls'},
+        ]},
+    {title: 'Assigned', option: 'showAssigned', empty: 'Nothing assigned to you',
+        count: dashboard => dashboard.assigned.total, groups: [
+            {key: 'assigned', url: 'https://github.com/issues/assigned'},
+        ]},
 ];
 
 const REVIEW_TAGS = {approved: 'Approved', changes: 'Needs changes'};
@@ -236,8 +244,16 @@ export const GitHubBarIndicator = GObject.registerClass({
         TABS.forEach((tab, index) => {
             const button = this._buttons[index];
             button.visible = this._tabShown(tab);
-            const total = this._shown ? tab.groups.reduce((sum, group) => sum + this._shown[group.key].total, 0) : 0;
+            const total = this._shown ? tab.count(this._shown) : 0;
             button.count.text = total ? String(total) : '';
+            // Failed checks colour the Pulls count, so they are seen from any tab.
+            const failed = this._shown !== null &&
+                tab.groups.some(group => this._shown[group.key].items.some(item => item.checks === 'failure'));
+            button.count.opacity = failed ? 255 : DIM_OPACITY;
+            if (failed)
+                button.count.add_style_class_name('github-bar-failure');
+            else
+                button.count.remove_style_class_name('github-bar-failure');
         });
         this._tabsItem.visible = this._shown !== null && this._buttons.some(button => button.visible);
         this._select(this._tabShown(TABS[this._tab]) ? this._tab : this._firstTab());
@@ -261,7 +277,7 @@ export const GitHubBarIndicator = GObject.registerClass({
     }
 
     _tabShown(tab) {
-        return tab.groups.some(group => this._options?.[group.option]);
+        return this._options?.[tab.option] ?? false;
     }
 
     _firstTab() {
@@ -283,7 +299,7 @@ export const GitHubBarIndicator = GObject.registerClass({
     }
 
     _addList(tab, dashboard, options) {
-        const groups = tab.groups.filter(group => options[group.option] && dashboard[group.key].items.length);
+        const groups = tab.groups.filter(group => dashboard[group.key].items.length);
         if (!groups.length)
             this._list.addMenuItem(captionItem(tab.empty));
 
