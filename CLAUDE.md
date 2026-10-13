@@ -69,9 +69,12 @@ docs/publishing.md      the zip, and how it meets the extensions.gnome.org revie
   selected tab's list is rebuilt, inside an `St.ScrollView` that replaces a
   `PopupMenuSection`'s actor, as the shell's `PopupSubMenu` does (with the `_delegate` set,
   or the menu never sees the section and leaks it on disable); keyboard focus scrolls itself
-  into view. Closing the menu folds the profile and selects the first tab. A failed fetch
-  keeps the last good data under its message; signed out hides it. There is no footer:
-  the preferences open from the Extensions app.
+  into view, and a rebuild under keyboard focus keeps it at the same index. An inbox row
+  carries a mark-read button, transparent until the row is active, and Delete does the
+  same: the row goes at once, the counts with the refresh after the write. Closing the
+  menu folds the profile and selects the first tab. A failed fetch keeps the last good
+  data under its message; signed out hides it. There is no footer: the preferences open
+  from the Extensions app.
 * **Item clicks open github.com in the browser**, a real launch from the nested shell too.
 * **The avatar** is fetched once per enable and cached as
   `~/.cache/github-bar@jackicus/avatar-<sha256 of the picture>`: GitHub keeps an avatar's

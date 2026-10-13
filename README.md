@@ -13,7 +13,8 @@ GNOME Shell.
   Inbox and refreshes itself, on opening or switching tab, when its figures are over half
   a minute old; a small spinner beside your name says so, and the list stays put.
 - **Inbox**: your unread GitHub notifications, each tagged with why it is there (Review,
-  Mention, Comment, Watching, CI…); a click opens one and marks it read. It can leave out
+  Mention, Comment, Watching, CI…); a click opens one and marks it read, and the check
+  beside a row (or Delete) marks it read without opening it. It can leave out
   what you only watch.
 - **Pulls**: open pull requests that ask for your review, then your own, each with its
   checks (running, passed, failed) and review state. The tab counts what waits on you:

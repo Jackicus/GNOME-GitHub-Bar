@@ -310,9 +310,14 @@ export const GitHubBarIndicator = GObject.registerClass({
             else
                 button.add_style_class_name('flat');
         });
+        // A rebuild under keyboard focus keeps it at the same place in the list.
+        const focused = this._list.box.get_children().findIndex(child => child.has_key_focus());
         this._list.removeAll();
         if (this._shown && this._tabsItem.visible)
             this._addList(TABS[index], this._shown, this._options);
+        const children = this._list.box.get_children();
+        if (focused >= 0 && children.length)
+            children[Math.min(focused, children.length - 1)].grab_key_focus();
     }
 
     _addList(tab, dashboard, options) {
@@ -389,6 +394,32 @@ export const GitHubBarIndicator = GObject.registerClass({
             this.emit('mark-read', notification.id);
             this.emit('open-url', notification.url);
         });
+
+        // Shown while the row is hovered or focused; Delete does the same from the keyboard.
+        const markRead = new St.Button({
+            style_class: 'icon-button flat github-bar-mark-read',
+            child: new St.Icon({icon_name: 'object-select-symbolic'}),
+            accessible_name: 'Mark as Read',
+            y_align: Clutter.ActorAlign.CENTER,
+            opacity: 0,
+        });
+        markRead.connect('clicked', () => this._markRead(item, notification));
+        item.add_child(markRead);
+        item.connect('notify::active', () => (markRead.opacity = item.active ? 255 : 0));
+        item.connect('key-press-event', (_item, event) => {
+            if (event.get_key_symbol() !== Clutter.KEY_Delete)
+                return Clutter.EVENT_PROPAGATE;
+            this._markRead(item, notification);
+            return Clutter.EVENT_STOP;
+        });
         return item;
+    }
+
+    // The row goes at once; the inbox and its counts follow with the refresh after the write.
+    _markRead(item, notification) {
+        if (item.has_key_focus())
+            this._list.box.navigate_focus(item, St.DirectionType.DOWN, false);
+        item.destroy();
+        this.emit('mark-read', notification.id);
     }
 });
