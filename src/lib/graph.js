@@ -2,8 +2,9 @@ import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import St from 'gi://St';
 
-// Cell opacity per level; level 0 is a day with no contributions.
-const LEVELS = [0.12, 0.4, 0.6, 0.8, 1];
+// Cell opacity per level; level 0 is a day with no contributions, drawn on the submenu's
+// lighter background.
+const LEVELS = [0.16, 0.5, 0.7, 0.85, 1];
 
 // Sunday is 0, as GitHub's calendar starts its weeks.
 function weekday(date) {

@@ -23,7 +23,7 @@ GNOME Shell.
 
 ![The top bar's right end: the pull request glyph and the count 8, beside the system icons.](docs/screenshots/top-bar-cropped.png)
 
-![The same menu with the profile unfolded, the contribution calendar in blue and Open Profile on GitHub under the name, and the Pulls tab selected: two review requests and four of your pull requests: one with checks running, one with checks passed and "Approved", one with checks failed and "Changes requested", and one "Draft".](docs/screenshots/menu-profile.png)
+![The same menu with the profile unfolded, the contribution calendar in blue and Open Profile on GitHub under the name, and the Pulls tab selected: two review requests and four of your pull requests: one with checks running, one with checks passed and "Approved", one with checks failed and "Needs changes", and one "Draft".](docs/screenshots/menu-profile.png)
 
 ![A notification banner: "Checks passed on stand-in/garden#42", with the pull request's title "Water the seedlings on a timer".](docs/screenshots/notification.png)
 
@@ -83,7 +83,7 @@ Open them from the Extensions app, or with `gnome-extensions prefs github-bar@ja
 
 | | |
 |---|---|
-| ![The preferences, top: Number Beside the Icon set to Both, then the Menu group with a switch for each section, all on, and Items per Section at 5.](docs/screenshots/preferences.png) | ![The preferences, bottom: the Notifications group with Checks Finished and Review Requested on, then Updates, which says GitHub Bar uses the GitHub CLI's login, and Seconds Between Updates at 120.](docs/screenshots/preferences-notifications.png) |
+| ![The preferences, top: Number Beside the Icon set to Both, then the Menu group with a switch for each tab and the contribution graph, all on, and Items per List at 5.](docs/screenshots/preferences.png) | ![The preferences, bottom: the Notifications group with Checks Finished and Review Requested on, then Updates, which says GitHub Bar uses the GitHub CLI's login, and Seconds Between Updates at 120.](docs/screenshots/preferences-notifications.png) |
 
 - **Number Beside the Icon**: unread notifications, review requests, both added, or none.
 - **Menu**: each list on or off (a tab with none on is hidden), the contribution graph,

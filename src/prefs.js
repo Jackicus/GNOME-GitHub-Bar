@@ -35,13 +35,12 @@ export default class GitHubBarPreferences extends ExtensionPreferences {
         page.add(bar);
 
         const menu = new Adw.PreferencesGroup({title: 'Menu'});
-        this._addSwitch(menu, settings, 'show-reviews', 'Review Requests', 'Pull requests that ask for your review');
-        this._addSwitch(menu, settings, 'show-pulls', 'Your Pull Requests', 'With their checks and review state');
-        this._addSwitch(menu, settings, 'show-assigned', 'Assigned to You', 'Open issues and pull requests');
-        this._addSwitch(menu, settings, 'show-notifications', 'Notifications', 'Unread, from your GitHub inbox');
-        this._addSwitch(menu, settings, 'show-graph', 'Contribution Graph', 'The last weeks, with your streak');
+        this._addSwitch(menu, settings, 'show-notifications', 'Inbox', 'Your unread GitHub notifications');
+        this._addSwitch(menu, settings, 'show-pulls', 'Pulls', 'Review requests, then your pull requests and their checks');
+        this._addSwitch(menu, settings, 'show-assigned', 'Assigned', 'Open issues and pull requests assigned to you');
+        this._addSwitch(menu, settings, 'show-graph', 'Contribution Graph', 'Unfolded under your name');
         const items = Adw.SpinRow.new_with_range(1, 20, 1);
-        items.title = 'Items per Section';
+        items.title = 'Items per List';
         items.subtitle = 'The rest are a click away on GitHub';
         settings.bind('max-items', items, 'value', Gio.SettingsBindFlags.DEFAULT);
         menu.add(items);

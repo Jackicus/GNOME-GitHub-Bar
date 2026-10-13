@@ -170,7 +170,6 @@ export class GitHubBarApp {
     _redraw() {
         this._indicator.update(this._dashboard, {
             count: this._settings.get_string('count'),
-            showReviews: this._settings.get_boolean('show-reviews'),
             showPulls: this._settings.get_boolean('show-pulls'),
             showAssigned: this._settings.get_boolean('show-assigned'),
             showNotifications: this._settings.get_boolean('show-notifications'),
