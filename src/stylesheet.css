@@ -63,3 +63,21 @@
     padding-top: 0.4em;
     padding-bottom: 0.4em;
 }
+
+/* As libadwaita's view switcher: the selected tab is the filled button, the others flat. */
+.github-bar-tabs {
+    spacing: 0.25em;
+}
+
+.button.github-bar-tab {
+    padding: 0.4em 0.5em;
+    font-weight: normal;
+}
+
+.button.github-bar-tab:checked {
+    font-weight: bold;
+}
+
+.github-bar-tab-content {
+    spacing: 0.4em;
+}

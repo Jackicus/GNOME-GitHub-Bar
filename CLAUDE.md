@@ -28,8 +28,8 @@ src/stylesheet.css      the menu; the two state colours are the only hues
 src/icons/              our own symbolic glyphs (pull request, issue); not GitHub's marks
 src/schemas/            org.gnome.shell.extensions.github-bar
 src/lib/app.js          GitHubBarApp: polling, notifications, the avatar cache, wiring
-src/lib/indicator.js    GitHubBarIndicator: the button, its count and menu; draws the
-                        Dashboard it is handed, emits signals for what was clicked
+src/lib/indicator.js    GitHubBarIndicator: the button, its count and menu (user row,
+                        tabs, one list); draws the Dashboard it is handed, emits signals
 src/lib/graph.js        GitHubBarGraph: the contribution calendar, an St.DrawingArea
 src/lib/github.js       GitHubClient: one GraphQL query and /notifications into a
                         Dashboard; pure parsers. No shell imports, so scripts/ load it
@@ -50,19 +50,24 @@ docs/publishing.md      the zip, and how it meets the extensions.gnome.org revie
   runs after it.
 * **When**: `poll-seconds` (120), or 60 s while any of your pull requests has checks
   pending, never under GitHub's `X-Poll-Interval`; skipped while the session has been idle
-  10 minutes; on opening the menu when the data is over a minute old; 2 s after gh
-  rewrites `hosts.yml` (sign in, sign out). The timer is one-shot, re-armed after each
-  fetch.
+  10 minutes; on opening the menu or switching tab when the data is over 30 s old; 2 s
+  after gh rewrites `hosts.yml` (sign in, sign out). The timer is one-shot, re-armed after
+  each fetch.
 * **Notifications**: the first good fetch after enable only learns what is there. Checks
   notify on pending → success/failure for the same head commit; a review request notifies
   once per pull request seen. A change of account relearns without notifying. A screen
   lock disables, so an unlock forgets and relearns.
-* **The menu** is rebuilt on each update. Its sections sit in an `St.ScrollView` that
-  replaces the `PopupMenuSection`'s actor, as the shell's `PopupSubMenu` does (with the
-  `_delegate` set, or the menu never sees the section and leaks it on disable), so a long
-  menu scrolls above a fixed footer; keyboard focus scrolls itself into view. A failed
-  fetch keeps the last good sections under its message; signed out clears them. Refresh
-  does not emit `activate`, so the menu stays open.
+* **The menu** is fixed items updated in place: a status caption, the user row (a
+  `PopupSubMenuMenuItem` whose label is replaced by the avatar, names and stats, with the
+  shell's `Animation.Spinner` before its arrow while a fetch runs), its submenu (the graph
+  and Open Profile on GitHub), and a strip of three tabs (`TABS`: Inbox, Pulls, Assigned),
+  St.Buttons in the theme's `button` style, `flat` but for the selected one. Only the
+  selected tab's list is rebuilt, inside an `St.ScrollView` that replaces a
+  `PopupMenuSection`'s actor, as the shell's `PopupSubMenu` does (with the `_delegate` set,
+  or the menu never sees the section and leaks it on disable); keyboard focus scrolls itself
+  into view. Closing the menu folds the profile and selects the first tab. A failed fetch
+  keeps the last good data under its message; signed out hides it. There is no footer:
+  the preferences open from the Extensions app.
 * **Item clicks open github.com in the browser**, a real launch from the nested shell too.
 * **The avatar** is fetched once per enable and cached as
   `~/.cache/github-bar@jackicus/avatar-<sha256 of the picture>`: GitHub keeps an avatar's
@@ -100,8 +105,8 @@ it (a leak per disable).
   `drive-extension` skill.
 * `./scripts/nested.sh shots [--light] [--out DIR]` (`make shots`,
   `./scripts/nested.d/shots.sh`) takes the published set into `docs/screenshots/` over
-  `start --stand-in --headless` and stops: the top bar, the menu at its top and scrolled
-  down, the checks-passed banner and the preferences at both ends (`--light`: the top bar
-  and the menu, `*-light.png`). It refuses while a nested shell runs, and ends by stripping
+  `start --stand-in --headless` and stops: the top bar, the menu as it opens and with the
+  profile unfolded on the Pulls tab, the checks-passed banner and the preferences at both
+  ends (`--light`: the top bar and the menu, `*-light.png`). It refuses while a nested shell runs, and ends by stripping
   the PNGs' text chunks with `oxipng` (it warns when that is missing: never commit them
   unstripped).

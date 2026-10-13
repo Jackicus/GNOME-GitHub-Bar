@@ -6,6 +6,7 @@ import Pango from 'gi://Pango';
 import St from 'gi://St';
 
 import {ensureActorVisibleInScrollView} from 'resource:///org/gnome/shell/misc/animationUtils.js';
+import * as Animation from 'resource:///org/gnome/shell/ui/animation.js';
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 
@@ -15,11 +16,18 @@ import {GitHubBarGraph} from './graph.js';
 // Secondary text is dimmed with actor opacity, so it suits light and dark menus.
 const DIM_OPACITY = 160;
 
-const SECTIONS = [
-    {key: 'reviews', option: 'showReviews', title: 'Review Requests', url: 'https://github.com/pulls/review-requested'},
-    {key: 'pulls', option: 'showPulls', title: 'Your Pull Requests', url: 'https://github.com/pulls'},
-    {key: 'assigned', option: 'showAssigned', title: 'Assigned to You', url: 'https://github.com/issues/assigned'},
-    {key: 'notifications', option: 'showNotifications', title: 'Notifications', url: 'https://github.com/notifications'},
+// Each tab lists one or more groups of the dashboard; a group's option turns it off.
+const TABS = [
+    {title: 'Inbox', empty: 'No unread notifications', groups: [
+        {key: 'notifications', option: 'showNotifications', url: 'https://github.com/notifications'},
+    ]},
+    {title: 'Pulls', empty: 'No open pull requests', groups: [
+        {key: 'reviews', option: 'showReviews', title: 'Review Requests', url: 'https://github.com/pulls/review-requested'},
+        {key: 'pulls', option: 'showPulls', title: 'Your Pull Requests', url: 'https://github.com/pulls'},
+    ]},
+    {title: 'Assigned', empty: 'Nothing assigned to you', groups: [
+        {key: 'assigned', option: 'showAssigned', url: 'https://github.com/issues/assigned'},
+    ]},
 ];
 
 const REVIEW_TAGS = {approved: 'Approved', changes: 'Changes requested'};
@@ -101,8 +109,7 @@ export const GitHubBarIndicator = GObject.registerClass({
         'open-url': {param_types: [GObject.TYPE_STRING]},
         'mark-read': {param_types: [GObject.TYPE_STRING]},
         'mark-all-read': {},
-        'refresh': {},
-        'open-preferences': {},
+        'tab-changed': {},
     },
 }, class GitHubBarIndicator extends PanelMenu.Button {
     _init(extension) {
@@ -120,28 +127,90 @@ export const GitHubBarIndicator = GObject.registerClass({
         this.add_child(box);
 
         this.menu.box.add_style_class_name('github-bar-menu');
-        // Scrolls as the shell's submenus do: a menu taller than the screen is cut off.
-        this._content = new PopupMenu.PopupMenuSection();
+        this._status = new PopupMenu.PopupMenuSection();
+        this.menu.addMenuItem(this._status);
+        this._addUserItem();
+        this._addTabs();
+
+        // Scrolls as the shell's submenus do: a list taller than the screen is cut off.
+        this._list = new PopupMenu.PopupMenuSection();
         this._scroll = new St.ScrollView({
             hscrollbar_policy: St.PolicyType.NEVER,
-            child: this._content.box,
+            child: this._list.box,
         });
-        this._content.actor = this._scroll;
-        this._scroll._delegate = this._content;
-        this.menu.addMenuItem(this._content);
+        this._list.actor = this._scroll;
+        this._scroll._delegate = this._list;
+        this.menu.addMenuItem(this._list);
         // Keyboard focus moved below the fold scrolls to it.
-        this._content.box.connect('child-added', (_box, item) =>
+        this._list.box.connect('child-added', (_box, item) =>
             item.connect('key-focus-in', () => ensureActorVisibleInScrollView(this._scroll, item)));
-        this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
 
-        this._refreshItem = new PopupMenu.PopupMenuItem('Refresh');
-        // Not emitting activate keeps the menu open, so the refresh is seen.
-        this._refreshItem.activate = () => this.emit('refresh');
-        this.menu.addMenuItem(this._refreshItem);
-        this.menu.addAction('Open GitHub', () => this.emit('open-url', 'https://github.com'));
-        this.menu.addAction('Settings', () => this.emit('open-preferences'));
+        // Each opening starts folded, on the first tab.
+        this.menu.connect('open-state-changed', (_menu, open) => {
+            if (open)
+                return;
+            this._user.menu.close(false);
+            this._select(this._firstTab());
+        });
 
         this._shown = null;
+        this._options = null;
+        this._tab = 0;
+    }
+
+    _addUserItem() {
+        this._user = new PopupMenu.PopupSubMenuMenuItem('', false);
+        this._user.add_style_class_name('github-bar-user');
+        this._user.label.destroy();
+
+        this._avatar = new St.Bin({style_class: 'github-bar-avatar', y_align: Clutter.ActorAlign.CENTER});
+        this._user.insert_child_at_index(this._avatar, 0);
+
+        const column = new St.BoxLayout({orientation: Clutter.Orientation.VERTICAL, x_expand: true, y_align: Clutter.ActorAlign.CENTER});
+        const names = new St.BoxLayout({style_class: 'github-bar-names'});
+        this._name = new St.Label({style_class: 'github-bar-name'});
+        this._name.clutter_text.ellipsize = Pango.EllipsizeMode.END;
+        names.add_child(this._name);
+        this._login = dimLabel('');
+        names.add_child(this._login);
+        column.add_child(names);
+        this._stats = dimLabel('', 'github-bar-details');
+        column.add_child(this._stats);
+        this._user.insert_child_at_index(column, 1);
+        this._user.label_actor = this._name;
+
+        // Before the arrow: a refresh shows here and leaves the rest of the menu as it is.
+        this._spinner = new Animation.Spinner(16, {animate: true, hideOnStop: true});
+        this._user.insert_child_at_index(this._spinner, this._user.get_n_children() - 1);
+        this.menu.addMenuItem(this._user);
+    }
+
+    _addTabs() {
+        this._tabsItem = inertItem('github-bar-tabs-row');
+        const strip = new St.BoxLayout({style_class: 'github-bar-tabs', x_expand: true});
+        strip.layout_manager.homogeneous = true;
+        this._buttons = TABS.map((tab, index) => {
+            const content = new St.BoxLayout({style_class: 'github-bar-tab-content', x_align: Clutter.ActorAlign.CENTER});
+            content.add_child(new St.Label({text: tab.title}));
+            const count = dimLabel('');
+            content.add_child(count);
+            const button = new St.Button({
+                style_class: 'button flat github-bar-tab',
+                child: content,
+                can_focus: true,
+                x_expand: true,
+                accessible_name: tab.title,
+            });
+            button.count = count;
+            button.connect('clicked', () => {
+                this._select(index);
+                this.emit('tab-changed');
+            });
+            strip.add_child(button);
+            return button;
+        });
+        this._tabsItem.add_child(strip);
+        this.menu.addMenuItem(this._tabsItem);
     }
 
     update(dashboard, options) {
@@ -149,24 +218,36 @@ export const GitHubBarIndicator = GObject.registerClass({
             this._shown = dashboard;
         else if (dashboard?.status === Status.SIGNED_OUT)
             this._shown = null;
+        this._options = options;
 
         this._updateCount(options.count);
-        this._content.removeAll();
-
+        this._status.removeAll();
         if (!dashboard)
-            this._content.addMenuItem(captionItem('Loading…'));
+            this._status.addMenuItem(captionItem('Loading…'));
         else if (dashboard.status === Status.SIGNED_OUT)
-            this._content.addMenuItem(captionItem('Sign in with gh auth login in a terminal.'));
+            this._status.addMenuItem(captionItem('Sign in with gh auth login in a terminal.'));
         else if (dashboard.status !== Status.OK)
-            this._content.addMenuItem(captionItem(dashboard.message));
+            this._status.addMenuItem(captionItem(dashboard.message));
 
+        this._user.visible = this._shown !== null;
         if (this._shown)
-            this._addDashboard(this._shown, options);
+            this._updateUser(this._shown, options);
+
+        TABS.forEach((tab, index) => {
+            const button = this._buttons[index];
+            button.visible = this._tabShown(tab);
+            const total = this._shown ? tab.groups.reduce((sum, group) => sum + this._shown[group.key].total, 0) : 0;
+            button.count.text = total ? String(total) : '';
+        });
+        this._tabsItem.visible = this._shown !== null && this._buttons.some(button => button.visible);
+        this._select(this._tabShown(TABS[this._tab]) ? this._tab : this._firstTab());
     }
 
     setBusy(busy) {
-        this._refreshItem.setSensitive(!busy);
-        this._refreshItem.label.text = busy ? 'Refreshing…' : 'Refresh';
+        if (busy)
+            this._spinner.play();
+        else
+            this._spinner.stop();
     }
 
     _updateCount(count) {
@@ -179,63 +260,75 @@ export const GitHubBarIndicator = GObject.registerClass({
         this._count.visible = total > 0;
     }
 
-    _addDashboard(dashboard, options) {
-        this._content.addMenuItem(this._userItem(dashboard, options.avatar));
+    _tabShown(tab) {
+        return tab.groups.some(group => this._options?.[group.option]);
+    }
 
-        if (options.showGraph && dashboard.calendar.days.length) {
-            const graph = new GitHubBarGraph();
-            graph.setDays(dashboard.calendar.days);
-            const item = inertItem(null);
-            item.add_child(graph);
-            this._content.addMenuItem(item);
-        }
+    _firstTab() {
+        return Math.max(TABS.findIndex(tab => this._tabShown(tab)), 0);
+    }
 
-        for (const section of SECTIONS) {
-            const {total, items} = dashboard[section.key];
-            if (!options[section.option] || !items.length)
-                continue;
+    _select(index) {
+        this._tab = index;
+        this._buttons.forEach((button, i) => {
+            button.checked = i === index;
+            if (i === index)
+                button.remove_style_class_name('flat');
+            else
+                button.add_style_class_name('flat');
+        });
+        this._list.removeAll();
+        if (this._shown && this._tabsItem.visible)
+            this._addList(TABS[index], this._shown, this._options);
+    }
 
-            this._content.addMenuItem(headingItem(section.title));
+    _addList(tab, dashboard, options) {
+        const groups = tab.groups.filter(group => options[group.option] && dashboard[group.key].items.length);
+        if (!groups.length)
+            this._list.addMenuItem(captionItem(tab.empty));
+
+        for (const group of groups) {
+            const {total, items} = dashboard[group.key];
+            if (group.title)
+                this._list.addMenuItem(headingItem(group.title));
             const shown = items.slice(0, options.maxItems);
             for (const entry of shown) {
-                this._content.addMenuItem(section.key === 'notifications'
+                this._list.addMenuItem(group.key === 'notifications'
                     ? this._notificationItem(entry) : this._entryItem(entry));
             }
             if (total > shown.length)
-                this._content.addAction(`${total - shown.length} more…`, () => this.emit('open-url', section.url));
-            if (section.key === 'notifications')
-                this._content.addAction('Mark All as Read', () => this.emit('mark-all-read'));
+                this._list.addAction(`${total - shown.length} more…`, () => this.emit('open-url', group.url));
+            if (group.key === 'notifications')
+                this._list.addAction('Mark All as Read', () => this.emit('mark-all-read'));
         }
     }
 
-    _userItem({user, calendar, streak}, avatarFile) {
-        const item = inertItem('github-bar-user');
-
-        let avatar;
-        if (avatarFile) {
-            avatar = new St.Bin({style_class: 'github-bar-avatar'});
-            avatar.set_style(`background-image: url("${avatarFile.get_uri()}"); border-radius: 999px;`);
+    _updateUser({user, calendar, streak}, options) {
+        if (options.avatar) {
+            this._avatar.child = null;
+            this._avatar.set_style(`background-image: url("${options.avatar.get_uri()}"); border-radius: 999px;`);
         } else {
-            avatar = new St.Icon({icon_name: 'avatar-default-symbolic', style_class: 'github-bar-avatar'});
+            this._avatar.child = new St.Icon({icon_name: 'avatar-default-symbolic', style_class: 'github-bar-avatar'});
+            this._avatar.set_style(null);
         }
-        item.add_child(avatar);
-
-        const column = new St.BoxLayout({orientation: Clutter.Orientation.VERTICAL, x_expand: true, y_align: Clutter.ActorAlign.CENTER});
-        const names = new St.BoxLayout({style_class: 'github-bar-names'});
-        const name = new St.Label({text: user.name || user.login, style_class: 'github-bar-name'});
-        name.clutter_text.ellipsize = Pango.EllipsizeMode.END;
-        names.add_child(name);
-        if (user.name)
-            names.add_child(dimLabel(user.login));
-        column.add_child(names);
+        this._name.text = user.name || user.login;
+        this._login.text = user.name ? user.login : '';
+        this._login.visible = Boolean(user.name);
 
         const stats = [plural(calendar.total, 'contribution', 'contributions')];
         if (streak)
             stats.push(`${streak}-day streak`);
-        column.add_child(dimLabel(stats.join(' · '), 'github-bar-details'));
+        this._stats.text = stats.join(' · ');
 
-        item.add_child(column);
-        return item;
+        this._user.menu.removeAll();
+        if (options.showGraph && calendar.days.length) {
+            const graph = new GitHubBarGraph();
+            graph.setDays(calendar.days);
+            const item = inertItem(null);
+            item.add_child(graph);
+            this._user.menu.addMenuItem(item);
+        }
+        this._user.menu.addAction('Open Profile on GitHub', () => this.emit('open-url', `https://github.com/${user.login}`));
     }
 
     _entryItem(entry) {

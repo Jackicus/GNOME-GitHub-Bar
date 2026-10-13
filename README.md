@@ -3,24 +3,27 @@
 Your GitHub notifications, review requests and pull request CI status in the top bar of
 GNOME Shell.
 
-![The open menu under the top bar: the avatar and name of the account "stand-in", 765 contributions and a 9-day streak, the contribution calendar in blue, then two review requests and four of your pull requests: one with checks running, one with checks passed and "Approved", one with checks failed and "Changes requested", and one "Draft".](docs/screenshots/menu.png)
+![The open menu under the top bar: the avatar and name of the account "stand-in", 758 contributions and a 9-day streak, then three tabs, Inbox 6, Pulls 6 and Assigned 2, with Inbox selected: five unread notifications, "1 more…" and Mark All as Read.](docs/screenshots/menu.png)
 
 ## What it does
 
 - **A count in the top bar**: unread notifications and review requests, added together,
   or either alone, or none.
-- **Review requests**: open pull requests that ask for your review.
-- **Your pull requests**: each with its checks (running, passed, failed) and review state.
-- **Assigned to you and notifications**: open issues and pull requests assigned to you,
-  and your unread GitHub notifications; a click opens one and marks it read.
-- **Your contributions**: the last weeks of your calendar, in the accent colour, with your
-  streak.
+- **A compact menu**: your name, then three tabs, one list at a time. It opens on the
+  Inbox and refreshes itself, on opening or switching tab, when its figures are over half
+  a minute old; a small spinner beside your name says so, and the list stays put.
+- **Inbox**: your unread GitHub notifications; a click opens one and marks it read.
+- **Pulls**: open pull requests that ask for your review, then your own, each with its
+  checks (running, passed, failed) and review state.
+- **Assigned**: open issues and pull requests assigned to you.
+- **Your contributions**: a click on your name unfolds the last weeks of your calendar, in
+  the accent colour, and a link to your profile.
 - **Notifications on your desktop** when the checks on one of your pull requests finish,
   and when someone asks for your review.
 
 ![The top bar's right end: the pull request glyph and the count 8, beside the system icons.](docs/screenshots/top-bar-cropped.png)
 
-![Further down the same menu: assigned to you, then five unread notifications, "1 more…" and Mark All as Read, above Refresh, Open GitHub and Settings.](docs/screenshots/menu-scrolled.png)
+![The same menu with the profile unfolded, the contribution calendar in blue and Open Profile on GitHub under the name, and the Pulls tab selected: two review requests and four of your pull requests: one with checks running, one with checks passed and "Approved", one with checks failed and "Changes requested", and one "Draft".](docs/screenshots/menu-profile.png)
 
 ![A notification banner: "Checks passed on stand-in/garden#42", with the pull request's title "Water the seedlings on a timer".](docs/screenshots/notification.png)
 
@@ -76,15 +79,15 @@ To update, `git pull && make install`, then log out and in. To remove it, `make 
 
 ## Preferences
 
-`gnome-extensions prefs github-bar@jackicus` opens them, as does Settings at the foot of the
-menu.
+Open them from the Extensions app, or with `gnome-extensions prefs github-bar@jackicus`.
 
 | | |
 |---|---|
 | ![The preferences, top: Number Beside the Icon set to Both, then the Menu group with a switch for each section, all on, and Items per Section at 5.](docs/screenshots/preferences.png) | ![The preferences, bottom: the Notifications group with Checks Finished and Review Requested on, then Updates, which says GitHub Bar uses the GitHub CLI's login, and Seconds Between Updates at 120.](docs/screenshots/preferences-notifications.png) |
 
 - **Number Beside the Icon**: unread notifications, review requests, both added, or none.
-- **Menu**: each section on or off, and how many items each lists.
+- **Menu**: each list on or off (a tab with none on is hidden), the contribution graph,
+  and how many items each list shows.
 - **Notifications**: when checks finish, when your review is requested.
 - **Seconds Between Updates**: 60 to 3600.
 

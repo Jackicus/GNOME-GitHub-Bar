@@ -13,8 +13,8 @@ import * as Log from './log.js';
 const IDLE_SKIP_MS = 10 * 60 * 1000;
 // While checks run on one of your pull requests, so their notification comes soon after.
 const PENDING_POLL_SECONDS = 60;
-// Opening the menu re-reads only figures older than this.
-const STALE_SECONDS = 60;
+// Opening the menu or switching tab re-reads only figures older than this.
+const STALE_SECONDS = 30;
 
 Gio._promisify(Gio.File.prototype, 'replace_contents_bytes_async', 'replace_contents_finish');
 
@@ -42,12 +42,11 @@ export class GitHubBarApp {
             'open-url', (_indicator, url) => this._open(url),
             'mark-read', (_indicator, id) => this._markRead(id),
             'mark-all-read', () => this._markAllRead(),
-            'refresh', () => this._refresh(),
-            'open-preferences', () => this._extension.openPreferences(),
+            'tab-changed', () => this._refreshIfStale(),
             this);
         this._indicator.menu.connectObject('open-state-changed', (_menu, open) => {
-            if (open && this._isStale())
-                this._refresh();
+            if (open)
+                this._refreshIfStale();
         }, this);
         Main.panel.addToStatusArea(this._extension.uuid, this._indicator);
 
@@ -162,9 +161,10 @@ export class GitHubBarApp {
         });
     }
 
-    _isStale() {
+    _refreshIfStale() {
         const updated = this._dashboard?.updated;
-        return !updated || GLib.DateTime.new_now_utc().difference(updated) > STALE_SECONDS * GLib.TIME_SPAN_SECOND;
+        if (!updated || GLib.DateTime.new_now_utc().difference(updated) > STALE_SECONDS * GLib.TIME_SPAN_SECOND)
+            this._refresh();
     }
 
     _redraw() {
