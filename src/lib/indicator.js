@@ -18,7 +18,7 @@ const DIM_OPACITY = 160;
 
 // Your pull requests that wait on you rather than on others.
 function needsYou(pull) {
-    return pull.checks === 'failure' || pull.review === 'changes';
+    return pull.checks === 'failure' || pull.review === 'changes' || pull.conflicts;
 }
 
 // Each tab lists one or more groups of the dashboard, and counts what waits on you there.
@@ -376,7 +376,13 @@ export const GitHubBarIndicator = GObject.registerClass({
         else if (entry.checks)
             icon.add_style_class_name(`github-bar-${entry.checks}`);
 
-        const tag = entry.draft ? 'Draft' : REVIEW_TAGS[entry.review];
+        let tag = REVIEW_TAGS[entry.review];
+        if (entry.draft)
+            tag = 'Draft';
+        else if (entry.conflicts)
+            tag = 'Conflicts';
+        else if (entry.ready)
+            tag = 'Ready to merge';
         const item = linkItem(icon, entry.title, [`${entry.repo} #${entry.number}`, ago(entry.updated)], tag);
         item.connect('activate', () => this.emit('open-url', entry.url));
         return item;

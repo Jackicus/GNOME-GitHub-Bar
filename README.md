@@ -17,18 +17,21 @@ GNOME Shell.
   beside a row (or Delete) marks it read without opening it. It can leave out
   what you only watch.
 - **Pulls**: open pull requests that ask for your review, then your own, each with its
-  checks (running, passed, failed) and review state. The tab counts what waits on you:
-  review requests, and your pull requests with failed checks or changes asked for. The
+  checks (running, passed, failed) and its state (Ready to merge, Needs changes,
+  Conflicts, Draft). The tab counts what waits on you:
+  review requests, and your pull requests with failed checks, changes asked for or
+  conflicts. The
   count turns red while checks have failed.
 - **Assigned**: open issues and pull requests assigned to you.
 - **Your contributions**: a click on your name unfolds the last weeks of your calendar, in
   the accent colour, and a link to your profile.
 - **Notifications on your desktop** when the checks on one of your pull requests finish,
-  and when someone asks for your review.
+  when one is ready to merge (approved, checks passed, no conflicts), and when someone
+  asks for your review.
 
 ![The top bar's right end: the pull request glyph and the count 8, beside the system icons.](docs/screenshots/top-bar-cropped.png)
 
-![The same menu with the profile unfolded, the contribution calendar in blue and Open Profile on GitHub under the name, and the Pulls tab selected (its count 3 in red): two review requests and four of your pull requests: one with checks running, one with checks passed and "Approved", one with checks failed and "Needs changes", and one "Draft".](docs/screenshots/menu-profile.png)
+![The same menu with the profile unfolded, the contribution calendar in blue and Open Profile on GitHub under the name, and the Pulls tab selected (its count 3 in red): two review requests and four of your pull requests: one with checks running, one with checks passed and "Ready to merge", one with checks failed and "Conflicts", and one "Draft".](docs/screenshots/menu-profile.png)
 
 ![A notification banner: "Checks passed on stand-in/garden#42", with the pull request's title "Water the seedlings on a timer".](docs/screenshots/notification.png)
 
@@ -88,12 +91,13 @@ Open them from the Extensions app, or with `gnome-extensions prefs github-bar@ja
 
 | | |
 |---|---|
-| ![The preferences, top: Number Beside the Icon set to Both, then the Menu group with a switch for each tab and the contribution graph, all on, Only What Involves You off, and Items per List at 5.](docs/screenshots/preferences.png) | ![The preferences, bottom: the Notifications group with Checks Finished and Review Requested on, then Updates, which says GitHub Bar uses the GitHub CLI's login, and Seconds Between Updates at 120.](docs/screenshots/preferences-notifications.png) |
+| ![The preferences, top: Number Beside the Icon set to Both, then the Menu group with a switch for each tab and the contribution graph, all on, Only What Involves You off, and Items per List at 5.](docs/screenshots/preferences.png) | ![The preferences, bottom: the Notifications group with Checks Finished, Ready to Merge and Review Requested on, then Updates, which says GitHub Bar uses the GitHub CLI's login, and Seconds Between Updates at 120.](docs/screenshots/preferences-notifications.png) |
 
 - **Number Beside the Icon**: unread notifications, review requests, both added, or none.
 - **Menu**: each list on or off, the inbox limited to what involves you (a tab with none on is hidden), the contribution graph,
   and how many items each list shows.
-- **Notifications**: when checks finish, when your review is requested.
+- **Notifications**: when checks finish, when a pull request is ready to merge, when your
+  review is requested.
 - **Seconds Between Updates**: 60 to 3600.
 
 ## Troubleshooting

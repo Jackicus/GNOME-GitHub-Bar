@@ -2,7 +2,8 @@
 #                                     the menu can show: ok, empty, unauthorized (401),
 #                                     offline, error (502), checks-pending, checks-passed,
 #                                     checks-failed (stand-in/garden #42's checks),
-#                                     signed-out, signed-in. It re-reads at once
+#                                     ready (#42 approved and passed), signed-out,
+#                                     signed-in. It re-reads at once
 #
 
 # The stand-in world for 'start --stand-in' (and so 'shots'), since the pictures go into a public
@@ -41,8 +42,8 @@ YAML
 # app read again: a write, not a touch, which a monitor reports only as an attribute change.
 cmd_state() {
     local state="${1:-}" hosts
-    [[ "$state" =~ ^(ok|empty|unauthorized|offline|error|checks-pending|checks-passed|checks-failed|signed-out|signed-in)$ ]] \
-        || die "Usage: state ok|empty|unauthorized|offline|error|checks-pending|checks-passed|checks-failed|signed-out|signed-in"
+    [[ "$state" =~ ^(ok|empty|unauthorized|offline|error|checks-pending|checks-passed|checks-failed|ready|signed-out|signed-in)$ ]] \
+        || die "Usage: state ok|empty|unauthorized|offline|error|checks-pending|checks-passed|checks-failed|ready|signed-out|signed-in"
     is_running && stand_in || die "This needs a nested shell started with --stand-in."
     hosts="$(stand_in_hosts)"
 

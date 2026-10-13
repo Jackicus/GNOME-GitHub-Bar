@@ -13,7 +13,7 @@ const QUERY = `query {
     issueCount nodes { ... on PullRequest { number title url updatedAt isDraft
       repository { nameWithOwner } author { login } } } }
   pulls: search(type: ISSUE, query: "is:open is:pr author:@me archived:false", first: 20) {
-    issueCount nodes { ... on PullRequest { number title url updatedAt isDraft reviewDecision
+    issueCount nodes { ... on PullRequest { number title url updatedAt isDraft reviewDecision mergeable
       repository { nameWithOwner }
       commits(last: 1) { nodes { commit { oid statusCheckRollup { state } } } } } } }
   assigned: search(type: ISSUE, query: "is:open assignee:@me archived:false", first: 20) {
@@ -48,9 +48,15 @@ const KINDS = {PullRequest: 'pull', Issue: 'issue'};
 
 const PATHS = {pulls: 'pull', issues: 'issues', commits: 'commit'};
 
+// Approved, checks passed or none, no conflicts, not a draft.
+function isReady(item) {
+    return !item.draft && !item.conflicts && item.review === 'approved' &&
+        (item.checks === 'success' || item.checks === null);
+}
+
 function parseItem(node) {
     const commit = node.commits?.nodes[0]?.commit;
-    return {
+    const item = {
         kind: node.__typename === 'Issue' ? 'issue' : 'pull',
         repo: node.repository.nameWithOwner,
         number: node.number,
@@ -62,7 +68,11 @@ function parseItem(node) {
         checks: CHECKS[commit?.statusCheckRollup?.state] ?? null,
         review: REVIEWS[node.reviewDecision] ?? null,
         headOid: commit?.oid ?? null,
+        // GitHub answers UNKNOWN while it works the merge out; that is not a conflict.
+        conflicts: node.mergeable === 'CONFLICTING',
     };
+    item.ready = isReady(item);
+    return item;
 }
 
 // A search node outside the fragment's type comes back as {}.

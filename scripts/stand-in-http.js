@@ -26,6 +26,7 @@ const CHECKS = {
     'checks-pending': 'PENDING',
     'checks-passed': 'SUCCESS',
     'checks-failed': 'FAILURE',
+    'ready': 'SUCCESS',
 };
 
 function readState() {
@@ -138,15 +139,18 @@ function dashboard(state) {
             ]),
             pulls: search([
                 pull('stand-in/garden', 42, 'Water the seedlings on a timer', 8, {
-                    reviewDecision: 'REVIEW_REQUIRED',
+                    reviewDecision: state === 'ready' ? 'APPROVED' : 'REVIEW_REQUIRED',
+                    mergeable: 'MERGEABLE',
                     ...head('4b1d0c6e2f9a7d3b8e5c1a0f6d2b9e7c3a8f5d14', CHECKS[state] ?? 'PENDING'),
                 }),
                 pull('stand-in/lantern', 23, 'Dim the wick when the battery is low', 95, {
                     reviewDecision: 'APPROVED',
+                    mergeable: 'MERGEABLE',
                     ...head('9e3a7c1f5b2d8e6a0c4f7b1d3e9a5c2f8b6d0e13', 'SUCCESS'),
                 }),
                 pull('stand-in/garden', 39, 'Sort the beds by hours of sunlight', 300, {
                     reviewDecision: 'CHANGES_REQUESTED',
+                    mergeable: 'CONFLICTING',
                     ...head('2c8f6a0e4d1b7c9f3a5e8d2b6c0f4a7e1d9b3c58', 'FAILURE'),
                 }),
                 pull('stand-in/kettle', 7, 'Whistle at a lower pitch', 2880, {
