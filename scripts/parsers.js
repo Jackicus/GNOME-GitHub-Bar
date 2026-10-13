@@ -172,6 +172,15 @@ print('\n\x1b[1mThe client\x1b[0m — over a fake Http');
         'PATCH https://api.github.com/notifications/threads/1001');
     check('and drops it from the inbox', (await client.fetch(null)).notifications.total, 5);
 
+    dashboard = await client.fetch(null, true);
+    check('participating asks for it', sent.at(-1).url.endsWith('&participating=true'), true);
+    check('and forgets Last-Modified', sent.at(-1).ifModifiedSince, null);
+    const patches = sent.length;
+    await client.markAllRead(null);
+    check('filtered, mark all read patches each thread', sent.slice(patches).filter(r => r.method === 'PATCH').length,
+        dashboard.notifications.total);
+
+    await client.fetch(null);
     await client.markAllRead(null);
     check('mark all read sends last_read_at', typeof sent.at(-1).body.last_read_at, 'string');
     check('and empties the inbox', (await client.fetch(null)).notifications.total, 0);

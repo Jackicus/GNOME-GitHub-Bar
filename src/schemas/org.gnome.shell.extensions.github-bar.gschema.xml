@@ -12,6 +12,11 @@
             <summary>What the number beside the icon counts</summary>
             <description>Unread notifications, review requests, the two added, or no number.</description>
         </key>
+        <key name="participating" type="b">
+            <default>false</default>
+            <summary>Only notifications that involve you</summary>
+            <description>List only the threads you take part in or are mentioned in, leaving out repositories you only watch.</description>
+        </key>
         <key name="show-pulls" type="b">
             <default>true</default>
             <summary>Show the Pulls tab</summary>

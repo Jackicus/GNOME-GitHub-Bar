@@ -53,6 +53,8 @@ export class GitHubBarApp {
         this._settings.connectObject('changed', (_settings, key) => {
             if (key === 'poll-seconds')
                 this._schedule();
+            else if (key === 'participating')
+                this._refresh();
             else
                 this._redraw();
         }, this);
@@ -123,7 +125,7 @@ export class GitHubBarApp {
     }
 
     async _fetch(cancellable) {
-        const dashboard = await this._client.fetch(cancellable);
+        const dashboard = await this._client.fetch(cancellable, this._settings.get_boolean('participating'));
         if (dashboard.status === Status.OK) {
             if (this._known?.login !== dashboard.user.login)
                 this._avatar = null;

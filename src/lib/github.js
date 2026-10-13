@@ -140,20 +140,23 @@ export class GitHubClient {
     constructor(http) {
         this._http = http;
         this._account = null;
+        this._participating = false;
         this._lastModified = null;
         this._notifications = {total: 0, items: []};
     }
 
-    async fetch(cancellable) {
+    // participating: only the threads you take part in or are mentioned in.
+    async fetch(cancellable, participating = false) {
         const token = await readToken(cancellable);
         if (!token)
             return {status: Status.SIGNED_OUT, message: 'Sign in with gh auth login'};
 
-        // Another account's Last-Modified would answer a 304 with the wrong inbox.
-        // A hash tells accounts apart without keeping the token.
+        // Another account's or filter's Last-Modified would answer a 304 with the wrong
+        // inbox. A hash tells accounts apart without keeping the token.
         const account = GLib.compute_checksum_for_string(GLib.ChecksumType.SHA256, token, -1);
-        if (account !== this._account) {
+        if (account !== this._account || participating !== this._participating) {
             this._account = account;
+            this._participating = participating;
             this._lastModified = null;
         }
 
@@ -161,7 +164,7 @@ export class GitHubClient {
         try {
             [graphql, notifications] = await Promise.all([
                 this._http.request('POST', `${API}/graphql`, {token, body: {query: QUERY}}, cancellable),
-                this._http.request('GET', `${API}/notifications?per_page=100`,
+                this._http.request('GET', `${API}/notifications?per_page=100${participating ? '&participating=true' : ''}`,
                     {token, ifModifiedSince: this._lastModified}, cancellable),
             ]);
         } catch (e) {
@@ -193,8 +196,14 @@ export class GitHubClient {
         this._notifications = {total: items.length, items};
     }
 
+    // Filtered, the inbox shown is not the whole inbox, so only its threads are marked.
     async markAllRead(cancellable) {
-        await this._write('PUT', '/notifications', {last_read_at: new Date().toISOString()}, cancellable);
+        if (this._participating) {
+            await Promise.all(this._notifications.items.map(item =>
+                this._write('PATCH', `/notifications/threads/${item.id}`, null, cancellable)));
+        } else {
+            await this._write('PUT', '/notifications', {last_read_at: new Date().toISOString()}, cancellable);
+        }
         this._notifications = {total: 0, items: []};
     }
 

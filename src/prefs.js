@@ -16,7 +16,7 @@ export default class GitHubBarPreferences extends ExtensionPreferences {
     fillPreferencesWindow(window) {
         const settings = this.getSettings();
         // Tall enough for every group without scrolling.
-        window.set_default_size(640, 980);
+        window.set_default_size(640, 1040);
         const page = new Adw.PreferencesPage();
 
         const bar = new Adw.PreferencesGroup({title: 'Top Bar'});
@@ -36,6 +36,8 @@ export default class GitHubBarPreferences extends ExtensionPreferences {
 
         const menu = new Adw.PreferencesGroup({title: 'Menu'});
         this._addSwitch(menu, settings, 'show-notifications', 'Inbox', 'Your unread GitHub notifications');
+        this._addSwitch(menu, settings, 'participating', 'Only What Involves You',
+            'Leave out repositories you only watch');
         this._addSwitch(menu, settings, 'show-pulls', 'Pulls', 'Review requests, then your pull requests and their checks');
         this._addSwitch(menu, settings, 'show-assigned', 'Assigned', 'Open issues and pull requests assigned to you');
         this._addSwitch(menu, settings, 'show-graph', 'Contribution Graph', 'Unfolded under your name');
