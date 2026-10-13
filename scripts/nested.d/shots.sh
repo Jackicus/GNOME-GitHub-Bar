@@ -14,9 +14,10 @@ SHOTS_SETTLE=10
 # (it shifts the button left; the pictures are taken by a later run, without it). Re-measure with
 # 'start --stand-in --headless' and 'do "click 1367 16" "shot FILE 0 0 1600 900"'.
 SHOTS_BUTTON="1367 16"
-# Over the menu's sections, and a point off the menu and every window to leave the pointer at,
-# so no row is photographed hovered.
-SHOTS_SECTIONS="1370 500"
+# The Pulls tab and the user row of the opened menu, and a point off the menu and every window
+# to leave the pointer at, so no row is photographed hovered.
+SHOTS_PULLS="1343 125"
+SHOTS_USER="1300 70"
 SHOTS_AWAY="1400 880"
 # The preferences window opens centred.
 SHOTS_PREFS="800 500"
@@ -78,13 +79,14 @@ shots_take() {
     info "Opening the menu..."
     shots_do "click $SHOTS_BUTTON" "move $SHOTS_AWAY" "wait 1.5" || return 1
     # The recording indicator outlives its process by a few seconds: usually gone by 6, at times still there at 7.
-    shots_do "wait 10" "shot $out/menu$suffix.png 1180 0 420 885" || return 1
-    shots_do "scroll $SHOTS_SECTIONS down 10" "move $SHOTS_AWAY" "wait 1" || return 1
-    shots_do "wait 10" "shot $out/menu-scrolled$suffix.png 1180 0 420 885" || return 1
+    shots_do "wait 10" "shot $out/menu$suffix.png 1180 0 420 520" || return 1
+    # The notification, the unfolded profile and the preferences are shot once; the preferences
+    # are a GTK window with its own colour setting.
+    if (( ! light )); then
+        shots_do "click $SHOTS_PULLS" "click $SHOTS_USER" "move $SHOTS_AWAY" "wait 1" || return 1
+        shots_do "wait 10" "shot $out/menu-profile.png 1180 0 420 720" || return 1
+    fi
     shots_do "key Escape" || return 1
-
-    # The notification and the preferences are shot once; the preferences are a GTK window
-    # with its own colour setting.
     (( light )) && return 0
 
     info "Raising the checks-passed notification..."

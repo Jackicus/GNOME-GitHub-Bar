@@ -18,11 +18,12 @@ steps and its settings are there. This is what is particular to GitHub Bar.
 - **Always `--stand-in`.** The nested session has no keyring, so a plain `start` is signed
   out; the stand-in is the account `stand-in` with invented data and no network.
 - **Where it is**: the pull-request glyph and its count, left of the other status icons,
-  at about (1367, 16) on the default monitor. The menu opens below it, about 360 px wide;
-  its sections scroll (`scroll X Y down N` over them) above a fixed Refresh, Open GitHub
-  and Settings.
-- **Never click an item, "N more…" or Open GitHub**: each opens github.com in the user's
-  real browser. Mark All as Read, Refresh and Settings are safe.
+  at about (1367, 16) on the default monitor. The menu opens below it, about 360 px wide:
+  the user row at about (1300, 70) folds the graph and Open Profile on GitHub out under it;
+  the tabs Inbox, Pulls, Assigned sit at y 125 (folded), x about 1240, 1343, 1440. The
+  list under them scrolls when it is long.
+- **Never click an item, "N more…" or Open Profile on GitHub**: each opens github.com in
+  the user's real browser. Mark All as Read, the tabs and the user row are safe.
 - **States**: `./scripts/nested.sh state STATE` (`ok`, `empty`, `unauthorized`, `offline`,
   `error`, `signed-out`, `signed-in`, `checks-pending`, `checks-passed`, `checks-failed`);
   the app re-reads about 2 s later. `checks-pending` then `checks-passed` shows the "Checks
@@ -36,7 +37,7 @@ steps and its settings are there. This is what is particular to GitHub Bar.
 - **Screenshots** go through `gnome-ext:screenshots`: `./scripts/nested.sh shots`
   (`make shots`), then `shots --light`; `--out DIR` writes to the scratchpad to compare
   first. The README links `menu.png` (the hero), `top-bar-cropped.png`,
-  `menu-scrolled.png`, `notification.png`, `menu-light.png` and both preferences shots.
+  `menu-profile.png`, `notification.png`, `menu-light.png` and both preferences shots.
   The click points (`SHOTS_*` in `./scripts/nested.d/shots.sh`) are measured with the
   driver's recording indicator in the bar, which moves the button left of where a picture
   without it shows it (about 1433).
