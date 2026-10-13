@@ -64,5 +64,5 @@ json.dump({'state': state, 'read': read}, open(path, 'w'))
 PY
             if [[ -e "$hosts" ]]; then stand_in_login; fi ;;
     esac
-    ok "$state. The app reads again on the hosts.yml change (or click Refresh)."
+    ok "$state. The app reads again on the hosts.yml change."
 }

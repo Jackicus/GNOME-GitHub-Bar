@@ -75,7 +75,7 @@ docs/publishing.md      the zip, and how it meets the extensions.gnome.org revie
 
 ## Settings
 
-`count` (`both`, `notifications`, `reviews`, `none`), `show-reviews`, `show-pulls`,
+`count` (`both`, `notifications`, `reviews`, `none`), `show-pulls`,
 `show-assigned`, `show-notifications`, `show-graph`, `max-items` (5), `notify-checks`,
 `notify-reviews`, `poll-seconds` (120, 60–3600).
 

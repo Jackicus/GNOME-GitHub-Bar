@@ -22,7 +22,7 @@ const TABS = [
         {key: 'notifications', option: 'showNotifications', url: 'https://github.com/notifications'},
     ]},
     {title: 'Pulls', empty: 'No open pull requests', groups: [
-        {key: 'reviews', option: 'showReviews', title: 'Review Requests', url: 'https://github.com/pulls/review-requested'},
+        {key: 'reviews', option: 'showPulls', title: 'Review Requests', url: 'https://github.com/pulls/review-requested'},
         {key: 'pulls', option: 'showPulls', title: 'Your Pull Requests', url: 'https://github.com/pulls'},
     ]},
     {title: 'Assigned', empty: 'Nothing assigned to you', groups: [
@@ -30,7 +30,7 @@ const TABS = [
     ]},
 ];
 
-const REVIEW_TAGS = {approved: 'Approved', changes: 'Changes requested'};
+const REVIEW_TAGS = {approved: 'Approved', changes: 'Needs changes'};
 
 function ago(iso) {
     const then = iso && GLib.DateTime.new_from_iso8601(iso, null);

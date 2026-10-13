@@ -12,36 +12,31 @@
             <summary>What the number beside the icon counts</summary>
             <description>Unread notifications, review requests, the two added, or no number.</description>
         </key>
-        <key name="show-reviews" type="b">
-            <default>true</default>
-            <summary>Show review requests</summary>
-            <description>Open pull requests that ask for your review.</description>
-        </key>
         <key name="show-pulls" type="b">
             <default>true</default>
-            <summary>Show your pull requests</summary>
-            <description>Your open pull requests, with their checks and review state.</description>
+            <summary>Show the Pulls tab</summary>
+            <description>Pull requests that ask for your review, and your own open pull requests with their checks and review state.</description>
         </key>
         <key name="show-assigned" type="b">
             <default>true</default>
-            <summary>Show what is assigned to you</summary>
+            <summary>Show the Assigned tab</summary>
             <description>Open issues and pull requests assigned to you.</description>
         </key>
         <key name="show-notifications" type="b">
             <default>true</default>
-            <summary>Show notifications</summary>
+            <summary>Show the Inbox tab</summary>
             <description>Unread notifications from your GitHub inbox.</description>
         </key>
         <key name="show-graph" type="b">
             <default>true</default>
             <summary>Show the contribution graph</summary>
-            <description>The last weeks of your contribution calendar, with your streak.</description>
+            <description>The last weeks of your contribution calendar, unfolded under your name.</description>
         </key>
         <key name="max-items" type="i">
             <range min="1" max="20"/>
             <default>5</default>
-            <summary>Items per section</summary>
-            <description>How many entries each section lists before linking to the rest on GitHub.</description>
+            <summary>Items per list</summary>
+            <description>How many entries each list shows before linking to the rest on GitHub.</description>
         </key>
         <key name="notify-checks" type="b">
             <default>true</default>
