@@ -206,7 +206,10 @@ function answer(method, url, ifModifiedSince) {
     if (method === 'GET' && path.startsWith('/notifications')) {
         if (ifModifiedSince === headers['last-modified'])
             return {status: 304, body: null, headers};
-        return {status: 200, body: state.state === 'empty' ? [] : threads(state.read), headers};
+        // GitHub's participating filter leaves out what you only watch.
+        const watched = path.includes('participating=true') ? ['subscribed', 'manual', 'ci_activity'] : [];
+        const body = state.state === 'empty' ? [] : threads(state.read).filter(t => !watched.includes(t.reason));
+        return {status: 200, body, headers};
     }
 
     if (method === 'PATCH' && markRead) {

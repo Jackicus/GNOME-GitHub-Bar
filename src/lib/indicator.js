@@ -40,6 +40,23 @@ const TABS = [
 
 const REVIEW_TAGS = {approved: 'Approved', changes: 'Needs changes'};
 
+// Why a notification is in the inbox, by GitHub's reason.
+const REASON_TAGS = {
+    approval_requested: 'Approval',
+    assign: 'Assigned',
+    author: 'Author',
+    ci_activity: 'CI',
+    comment: 'Comment',
+    invitation: 'Invitation',
+    manual: 'Subscribed',
+    mention: 'Mention',
+    review_requested: 'Review',
+    security_alert: 'Security',
+    state_change: 'State',
+    subscribed: 'Watching',
+    team_mention: 'Team',
+};
+
 function ago(iso) {
     const then = iso && GLib.DateTime.new_from_iso8601(iso, null);
     if (!then)
@@ -366,7 +383,8 @@ export const GitHubBarIndicator = GObject.registerClass({
             icon.gicon = this._icons[notification.kind];
         else
             icon.icon_name = 'mail-unread-symbolic';
-        const item = linkItem(icon, notification.title, [notification.repo, ago(notification.updated)]);
+        const item = linkItem(icon, notification.title, [notification.repo, ago(notification.updated)],
+            REASON_TAGS[notification.reason]);
         item.connect('activate', () => {
             this.emit('mark-read', notification.id);
             this.emit('open-url', notification.url);

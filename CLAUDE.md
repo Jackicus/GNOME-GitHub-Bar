@@ -44,9 +44,11 @@ docs/publishing.md      the zip, and how it meets the extensions.gnome.org revie
 
 * **One fetch** is a GraphQL query (viewer, contribution calendar, three searches: review
   requested, authored, assigned; cost 1 point) and `GET /notifications?per_page=100` (so
-  at most 100 are counted) with `If-Modified-Since`, whose 304 costs nothing and reuses
-  the cached inbox. Marking read drops the thread from that cache, since GitHub may still
-  answer 304. A token change forgets `Last-Modified`. A refresh asked for during a fetch
+  at most 100 are counted; `&participating=true` under `participating`) with
+  `If-Modified-Since`, whose 304 costs nothing and reuses the cached inbox. Marking read
+  drops the thread from that cache, since GitHub may still answer 304. A token or filter
+  change forgets `Last-Modified`. Filtered, Mark All as Read patches each listed thread,
+  since GitHub's mark-all would take the hidden ones too. A refresh asked for during a fetch
   runs after it.
 * **When**: `poll-seconds` (120), or 60 s while any of your pull requests has checks
   pending, never under GitHub's `X-Poll-Interval`; skipped while the session has been idle
@@ -77,7 +79,7 @@ docs/publishing.md      the zip, and how it meets the extensions.gnome.org revie
 
 ## Settings
 
-`count` (`both`, `notifications`, `reviews`, `none`), `show-pulls`,
+`count` (`both`, `notifications`, `reviews`, `none`), `participating`, `show-pulls`,
 `show-assigned`, `show-notifications`, `show-graph`, `max-items` (5), `notify-checks`,
 `notify-reviews`, `poll-seconds` (120, 60–3600).
 

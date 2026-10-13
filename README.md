@@ -3,7 +3,7 @@
 Your GitHub notifications, review requests and pull request CI status in the top bar of
 GNOME Shell.
 
-![The open menu under the top bar: the avatar and name of the account "stand-in", 758 contributions and a 9-day streak, then three tabs, Inbox 6, Pulls 3 in red for failed checks and Assigned 2, with Inbox selected: five unread notifications, "1 more…" and Mark All as Read.](docs/screenshots/menu.png)
+![The open menu under the top bar: the avatar and name of the account "stand-in", 758 contributions and a 9-day streak, then three tabs, Inbox 6, Pulls 3 in red for failed checks and Assigned 2, with Inbox selected: five unread notifications, each tagged with its reason (Review, Mention, Comment, Watching, Team), "1 more…" and Mark All as Read.](docs/screenshots/menu.png)
 
 ## What it does
 
@@ -12,7 +12,9 @@ GNOME Shell.
 - **A compact menu**: your name, then three tabs, one list at a time. It opens on the
   Inbox and refreshes itself, on opening or switching tab, when its figures are over half
   a minute old; a small spinner beside your name says so, and the list stays put.
-- **Inbox**: your unread GitHub notifications; a click opens one and marks it read.
+- **Inbox**: your unread GitHub notifications, each tagged with why it is there (Review,
+  Mention, Comment, Watching, CI…); a click opens one and marks it read. It can leave out
+  what you only watch.
 - **Pulls**: open pull requests that ask for your review, then your own, each with its
   checks (running, passed, failed) and review state. The tab counts what waits on you:
   review requests, and your pull requests with failed checks or changes asked for. The
@@ -85,10 +87,10 @@ Open them from the Extensions app, or with `gnome-extensions prefs github-bar@ja
 
 | | |
 |---|---|
-| ![The preferences, top: Number Beside the Icon set to Both, then the Menu group with a switch for each tab and the contribution graph, all on, and Items per List at 5.](docs/screenshots/preferences.png) | ![The preferences, bottom: the Notifications group with Checks Finished and Review Requested on, then Updates, which says GitHub Bar uses the GitHub CLI's login, and Seconds Between Updates at 120.](docs/screenshots/preferences-notifications.png) |
+| ![The preferences, top: Number Beside the Icon set to Both, then the Menu group with a switch for each tab and the contribution graph, all on, Only What Involves You off, and Items per List at 5.](docs/screenshots/preferences.png) | ![The preferences, bottom: the Notifications group with Checks Finished and Review Requested on, then Updates, which says GitHub Bar uses the GitHub CLI's login, and Seconds Between Updates at 120.](docs/screenshots/preferences-notifications.png) |
 
 - **Number Beside the Icon**: unread notifications, review requests, both added, or none.
-- **Menu**: each list on or off (a tab with none on is hidden), the contribution graph,
+- **Menu**: each list on or off, the inbox limited to what involves you (a tab with none on is hidden), the contribution graph,
   and how many items each list shows.
 - **Notifications**: when checks finish, when your review is requested.
 - **Seconds Between Updates**: 60 to 3600.
