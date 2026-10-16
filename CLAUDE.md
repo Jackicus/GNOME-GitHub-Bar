@@ -1,6 +1,6 @@
 # GitHub Bar
 
-Shared rules for every extension come from the GNOME-EXTENSIONS kit: `../CLAUDE.md` and `../.claude/rules/` (loaded with this file), and the `gnome-ext:*` skills. `.claude/kit.sh` pulls the kit at session start, or, with no kit beside this repository, fetches it and prints its rules into the session.
+Shared rules for every extension come from gnome-ai-kit: `../CLAUDE.md` and `../.claude/rules/` (loaded with this file), and the `gnome-ext:*` skills. `.claude/kit.sh` pulls the kit at session start, or, with no kit beside this repository, fetches it and prints its rules into the session.
 
 A GNOME Shell extension (UUID `github-bar@jackicus`, `version-name` 0.1, shell 50): a
 top-bar button counting what waits for you on GitHub, whose menu lists your review
