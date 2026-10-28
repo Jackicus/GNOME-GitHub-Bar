@@ -174,7 +174,7 @@ export const GitHubBarIndicator = GObject.registerClass({
         this.menu.connect('open-state-changed', (_menu, open) => {
             if (open)
                 return;
-            this._user.menu.close(false);
+            this._user.menu.close({animate: false});
             this._select(this._firstTab());
         });
 
@@ -412,12 +412,15 @@ export const GitHubBarIndicator = GObject.registerClass({
         markRead.connect('clicked', () => this._markRead(item, notification));
         item.add_child(markRead);
         item.connect('notify::active', () => (markRead.opacity = item.active ? 255 : 0));
-        item.connect('key-press-event', (_item, event) => {
-            if (event.get_key_symbol() !== Clutter.KEY_Delete)
+        const keys = new Clutter.KeyController();
+        keys.connect('key-press', () => {
+            const [, symbol] = keys.get_key();
+            if (symbol !== Clutter.KEY_Delete)
                 return Clutter.EVENT_PROPAGATE;
             this._markRead(item, notification);
             return Clutter.EVENT_STOP;
         });
+        item.add_action(keys);
         return item;
     }
 
