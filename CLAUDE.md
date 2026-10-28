@@ -2,7 +2,7 @@
 
 Shared rules for every extension come from gnome-ai-kit: `../CLAUDE.md` and `../.claude/rules/` (loaded with this file), and the `gnome-ext:*` skills. `.claude/kit.sh` pulls the kit at session start, or, with no kit beside this repository, fetches it and prints its rules into the session.
 
-A GNOME Shell extension (UUID `github-bar@jackicus`, `version-name` 0.1, shell 50): a
+A GNOME Shell extension (UUID `github-bar@jackicus`, `version-name` 0.1, shell 51): a
 top-bar button counting what waits for you on GitHub, whose menu lists your review
 requests, your open pull requests with their checks and review state, what is assigned to
 you, unread notifications and your contribution graph. It notifies when checks on your pull
@@ -94,7 +94,8 @@ docs/publishing.md      the zip, and how it meets the extensions.gnome.org revie
 carries the section as its `_delegate`, as `PopupSubMenu` does in `popupMenu.js`, because
 `PopupMenuBase._getMenuItems()` finds items through it. If that lookup moves, the menu stops
 seeing the section: its items lose keyboard navigation and `menu.destroy()` stops destroying
-it (a leak per disable).
+it (a leak per disable). Read at gnome-shell 51.1, where `PopupMenuBase.actor` became a
+setter that also destroys the section with the actor it is handed.
 
 ## Verifying
 

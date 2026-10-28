@@ -41,7 +41,7 @@ It follows the light and dark styles:
 
 ## Requirements
 
-GNOME Shell 50, libsecret's GObject introspection data (installed with GNOME on most
+GNOME Shell 51, libsecret's GObject introspection data (installed with GNOME on most
 distributions), and the [GitHub CLI](https://cli.github.com/) signed in once:
 
 ```bash
