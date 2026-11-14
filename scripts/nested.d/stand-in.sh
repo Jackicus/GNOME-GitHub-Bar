@@ -7,7 +7,7 @@
 #
 
 # The stand-in world for 'start --stand-in' (and so 'shots'), since the pictures go into a public
-# repository. On top of the kit's scratch HOME: a gh login for the account "stand-in", whose token
+# repository. On top of nested.sh's scratch HOME: a gh login for the account "stand-in", whose token
 # is the word "stand-in", and scripts/stand-in-http.js staged over lib/http.js, which answers from
 # $HOME/stand-in-state.json. Notifications marked read stay read until the next start.
 

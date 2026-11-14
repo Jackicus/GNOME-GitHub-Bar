@@ -5,7 +5,7 @@ description: See GitHub Bar in a throwaway nested GNOME Shell - its button and c
 
 # Driving GitHub Bar in a nested shell
 
-**Read `gnome-ext:nested-shell` first**: the loop (`start`, `do`, `reload`, `stop`), the
+**Read `nested-shell` first**: the loop (`start`, `do`, `reload`, `stop`), the
 steps and its settings are there. This is what is particular to GitHub Bar.
 
 ```bash
@@ -37,7 +37,7 @@ steps and its settings are there. This is what is particular to GitHub Bar.
   src/schemas`). The preferences: `./scripts/nested.sh run gnome-extensions prefs
   github-bar@jackicus`, then `do "window FILE"`. The Extensions app keeps `prefs.js`
   loaded: an edit to it is seen after `stop` + `start`.
-- **Screenshots** go through `gnome-ext:screenshots`: `./scripts/nested.sh shots`
+- **Screenshots** go through `screenshots`: `./scripts/nested.sh shots`
   (`make shots`), then `shots --light`; `--out DIR` writes to the scratchpad to compare
   first. The README links `menu.png` (the hero), `top-bar-cropped.png`,
   `menu-profile.png`, `notification.png`, `menu-light.png` and both preferences shots.
