@@ -107,7 +107,7 @@ shots_take() {
     shots_do "wait 1" "window $out/preferences-notifications.png" || return 1
 }
 
-# The extension logs failures only; the staging line is the kit's dev-extension.js saying where it loaded from.
+# The extension logs failures only; the staging line is dev-extension.js saying where it loaded from.
 shots_errors() {
     local errors
     errors="$(grep -E 'JS ERROR|Extension .* error|\[GitHub Bar\]' "$LOG_FILE" 2>/dev/null | grep -v 'Enabled from' | head -5 || true)"
